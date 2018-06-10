@@ -6,11 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:32:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/04/12 15:36:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/10 13:58:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/header.h"
+#include "header.h"
 
 #include <stdio.h>
 

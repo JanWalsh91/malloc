@@ -5,55 +5,35 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/10 13:15:58 by jwalsh           ###   ########.fr        #
+#    Created: 2018/06/10 13:28:27 by jwalsh            #+#    #+#              #
+#    Updated: 2018/06/10 15:04:36 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ifeq ($(HOSTTYPE),)
-	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
-endif
+export LD_LIBRARY_PATH := ./libmalloc:$LD_LIBRARY_PATH
 
-NAME := libft_malloc_$(HOSTTYPE).so
+NAME := test
 
-SRCS := testFunction
+LIB_NAME := ft_malloc
+LIB_PATH := libmalloc/
+LIB_INC := $(LIB_PATH)inc
 
-EXT  :=.c
-SRCS := $(addsuffix $(EXT), $(SRCS))
-OBJS := $(SRCS:.c=.o)
-SRCS_DIR := ./src
-OBJS_DIR := ./obj
-OBJS := $(addprefix $(OBJS_DIR)/, $(OBJS))
-SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
+SRC := main.c
 
-HEADERS := header.h
-HEADER_DIR := ./inc/
-HEADERS := $(addprefix $(HEADER_DIR), $(HEADERS))
-
-CC := gcc
 CFLAGS := -Wall -Werror -Wextra
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -shared $^ -o $(NAME)
+$(NAME):
+	@make -C $(LIB_PATH)
+	$(CC) $(CFLAGS) $(SRC) -o $(NAME) -I$(LIB_INC) -L$(LIB_PATH) -l$(LIB_NAME) 
 
-$(OBJS): | $(OBJS_DIR)
-
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
-	$(CC) -fPIC $(CFLAGS) -o $@ -c $<
-
-$(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
-
-clean:
-	rm -rf $(OBJS_DIR)
+clean: 
+	@rm -f $(NAME)
+	@echo "clean test"
 
 fclean: clean
-	rm -f $(NAME)
+	@make fclean -C $(LIB_PATH)
+	@echo "fclean test"
 
 re: fclean all
-
-PHONY: re all clean fclean
-
-.PHONY: all clean fclean re
