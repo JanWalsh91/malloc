@@ -1,0 +1,12 @@
+- use mmap and munmap to allocate and unallocate memory.
+- limit use of mmap and munmap
+- pre allocate memory zones for 'small' and 'medium' mallocs
+- size of zones must be a multiple of getpagesize()
+- each zone must conatain at least 100 allocations
+- TINY mallocs from 1 to n bytes are stored in zones of N bytes.
+- SMALL mallocs from (n + 1) to m bytes are stored in zones of M bytes.
+- LARGE mallocs of (m + 1) or more are stores with a simple call to mmap()
+- this is a library. Cammed libft_malloc_$HOSTTYPE.so
+
+
+1. figure out how to compile an .so
