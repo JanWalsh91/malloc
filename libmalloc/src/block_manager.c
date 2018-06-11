@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   block_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/12 15:18:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/10 13:55:39 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/06/11 16:04:42 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "malloc.h"
 
-int	main(int ac, char** av)
-{
-	(void)ac;
-	(void)av;
-	testFunction();
-	return (0);
+block_t get_new_block(size_t size) {
+	(void)size;
+	block_t block;
+
+	block->size = size;
+	block->next = NULL;
+	block->used = 1;
+	return block;
+}
+
+block_t get_next_available_block(size_t size) {
+	(void)size;
 }

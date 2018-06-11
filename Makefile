@@ -6,11 +6,9 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 13:28:27 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/10 15:04:36 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/11 13:56:47 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-export LD_LIBRARY_PATH := ./libmalloc:$LD_LIBRARY_PATH
 
 NAME := test
 
@@ -26,14 +24,15 @@ all: $(NAME)
 
 $(NAME):
 	@make -C $(LIB_PATH)
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME) -I$(LIB_INC) -L$(LIB_PATH) -l$(LIB_NAME) 
+	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) -I$(LIB_INC) -L$(LIB_PATH) -l$(LIB_NAME) 
+	@echo "test compiled"
 
 clean: 
 	@rm -f $(NAME)
-	@echo "clean test"
+	@echo "test clean"
 
 fclean: clean
 	@make fclean -C $(LIB_PATH)
-	@echo "fclean test"
+	@echo "test fclean"
 
 re: fclean all

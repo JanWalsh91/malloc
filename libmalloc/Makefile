@@ -6,12 +6,9 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/11 12:57:53 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/11 15:59:02 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-# export DIR_MALLOC := libmalloc
-# export DIR_LIB		:= $(DIR_MALLOC)
 
 ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
@@ -20,7 +17,11 @@ endif
 NAME := libft_malloc_$(HOSTTYPE).so
 SYM_NAME := libft_malloc.so
 
-SRCS := testFunction
+SRCS := malloc \
+		realloc \
+		free \
+		region_manager \
+		block_manager
 
 EXT  :=.c
 SRCS := $(addsuffix $(EXT), $(SRCS))
@@ -30,7 +31,7 @@ OBJS_DIR := ./obj
 OBJS := $(addprefix $(OBJS_DIR)/, $(OBJS))
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 
-HEADERS := header.h
+HEADERS := malloc.h
 HEADER_DIR := ./inc/
 HEADERS := $(addprefix $(HEADER_DIR), $(HEADERS))
 

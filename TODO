@@ -8,6 +8,9 @@
 - LARGE mallocs of (m + 1) or more are stores with a simple call to mmap()
 - this is a library. Cammed libft_malloc_$HOSTTYPE.so
 
+Go run the shared object library:
+	export DYLD_LIBRARY_PATH=/Users/jwalsh/Documents/42/malloc/libmalloc/
+
 
 1. figure out how to compile an .so
 2. use env variables to use .so

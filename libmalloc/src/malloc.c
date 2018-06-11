@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/04/12 17:04:34 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/06/11 16:01:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#include "malloc.h"
 
-void	testFunction( void );
+void		*malloc(size_t size) {
+	printf("size: %lu\n", size);
+	(void)size;
 
-#endif
+	// get region with enough available space
+	// size must be adjusted to contain block
+	size = size + BLOCK_SIZE;
+	region_t region = get_next_available_region(size);
+	(void)region;
+	return (NULL);
+}
+

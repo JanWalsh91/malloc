@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/12 15:18:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/11 15:40:58 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/06/11 14:33:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-int	main(int ac, char** av)
-{
-	(void)ac;
-	(void)av;
-	void *ptr = NULL;
-	ptr = malloc(5000);
-	return (0);
+void		free(void *ptr) {
+	printf("free");
+	(void)ptr;
 }
