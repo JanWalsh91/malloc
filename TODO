@@ -10,3 +10,7 @@
 
 
 1. figure out how to compile an .so
+2. use env variables to use .so
+    DYLD_LIBRARY_PATH .
+    DYLD_INSERT_LIBRARIES *.so
+    DYLD_FORCE_FLAT_NAMESPACE = 1
