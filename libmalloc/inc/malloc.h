@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/15 15:20:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/15 15:23:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ struct					s_region {
 	t_region		next;
 	// size of largest free space
 	size_t			largest_free_space;
-	size_t			end_space;
+	size_t			space_at_end;
 	// location of first block
 	int				content;
 };

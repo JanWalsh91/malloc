@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:18:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/15 15:18:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/15 15:33:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ int	main(int ac, char** av)
 	// ptr[7] = '\0';
 	// printf("result: %s\n", ptr);
 	// printf("2=======\n");
-	// for (int i = 0; i < 5; i++) {
-	// 	ptr = (char *)malloc(120);
-	// 	printf("done with malloc: %p\n", ptr);
-	// }
+	for (int i = 0; i < 10; i++) {
+		printf("==== %d ====\n", i);
+		ptr = (char *)malloc(500);
+		printf("done with malloc: %p\n", ptr);
+	}
 	// printf("3=======\n");
 	// ptr = (char *)malloc(1000);
 	// printf("done with malloc: %p\n", ptr);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/15 15:20:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/15 15:41:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_region	get_new_region(size_t size) {
 	region->next = NULL;
 	region->content = 0;
 	region->largest_free_space = final_size - REGION_HEADER_SIZE;
+	region->space_at_end = region->largest_free_space;
 	return (region);
 }
 
@@ -67,20 +68,24 @@ t_region	get_next_available_region(size_t size) {
 		}
 		if (!region) {
 			region = get_new_region(size);
+			set_new_block(&(region->content), *first_region, 0);
 		}
 		return (region);
 	}
 }
 
 t_block get_next_available_block_in_region(t_region region, size_t size) {
+	// static int first_call = 1;
+	
 	printf("get_next_available_block_in_region\n");
 	// no content
-	if (region->content == 0) {
-		printf("\tno region\n");
-		set_new_block(&region->content, region, size);
-		printf("\tnew block: %p\n", &region->content);
-		return (t_block)&region->content;
-	}
+	// if (first_call == 1) {
+	// 	first_call = 0;
+	// 	printf("\tno region\n");
+	// 	set_new_block(&region->content, region, size);
+	// 	printf("\tnew block: %p\n", &region->content);
+	// 	return (t_block)&region->content;
+	// }
 	t_block block = (t_block)&region->content;
 	while (block->next) {
 		printf("\tlooking for next available block\n");
@@ -89,7 +94,6 @@ t_block get_next_available_block_in_region(t_region region, size_t size) {
 		}
 		block = block->next;
 	}
-	printf("\tdid not find one\n");
 	if (!block->next) {
 		return (add_new_block(block, region, size));
 	}

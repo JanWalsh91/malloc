@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/15 15:20:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/15 15:37:18 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		*malloc(size_t size) {
 	size = align4(size);
 	// get region with enough space
 	t_region region = get_next_available_region(size);
-	printf("got region: %p. size: %lu\n", region, region->size);
+	printf("\033[0;35mgot region: %p\033[0m. size: %lu, largest_free_space: %lu\n", region, region->size, region->largest_free_space);
 
 	// get next block in that region with enough space
 	t_block block = get_next_available_block_in_region(region, size);
