@@ -6,24 +6,24 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/11 16:01:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/15 12:26:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-region_t	*get_first_region() {
-	static	region_t first_region = NULL;
+t_region	*get_first_region() {
+	static	t_region first_region = NULL;
 
 	return &first_region;
 }
 
-region_t	get_new_region(size_t size) {
+t_region	get_new_region(size_t size) {
 	// use mmap to allocate region
-	region_t region;
+	t_region region;
 
 	region = NULL;
-	// size + region_size must be a multiple of page size
+	// size + s_regionize must be a multiple of page size
 	// TODO: adjust according to TINY SMALL and LARGE allocations
 	size_t page_size = getpagesize();
 	printf("page size: %lu\n", page_size);
@@ -34,15 +34,17 @@ region_t	get_new_region(size_t size) {
 	
 	region = mmap(0, final_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	region->nb_pages = page_count;
-	region->blocks = NULL;
 	region->total_size = final_size;
 	region->next = NULL;
+	region->content[0] = 0;
+	region->content[1] = 0;
+	region->largest_free_space = final_size - REGION_SIZE;
 	return (region);
 }
 
-// 
-region_t	get_next_available_region(size_t size) {
-	region_t	region = *get_first_region();
+// gets next region with enough space to allocate 'size' + header
+t_region	get_next_available_region(size_t size) {
+	t_region	region = *get_first_region();
 	
 	// get a new region if none is allocated yet,
 	// else get last region? or region with enough space.
@@ -51,12 +53,9 @@ region_t	get_next_available_region(size_t size) {
 	}
 	else {
 		// get last region
-		while (region) {
+		while (region && region->largest_free_space < size + BLOCK_SIZE) {
 			region = region->next;
 		}
-		// while (region && !region_has_space(region)) {
-		// 	region = region->next;
-		// }
 		if (!region) {
 			region = get_new_region(size);
 		}

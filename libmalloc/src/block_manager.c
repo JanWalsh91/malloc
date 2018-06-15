@@ -6,22 +6,43 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/11 16:04:42 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/15 12:34:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-block_t get_new_block(size_t size) {
-	(void)size;
-	block_t block;
+void	 set_new_block(void* ptr, size_t size) {
+	printf("set_new_block. ptr: %p, size: %lu\n", ptr, size);
+	t_block block = (t_block)ptr;
 
 	block->size = size;
 	block->next = NULL;
 	block->used = 1;
-	return block;
 }
 
-block_t get_next_available_block(size_t size) {
+t_block get_next_available_block_in_region(t_region region, size_t size) {
+	printf("get_next_available_block_in_region\n");
+	// no content
+	if (region->content[0] == 0) {
+		printf("empty region\n");
+		set_new_block(&region->content[1], size);
+		printf("new block: %p\n", &region->content[1]);
+		region->content[0] = 1;
+		return (t_block)&region->content[1];
+	}
+	t_block block = (t_block)&region->content[1];
+	while (block->next) {
+		printf("looking for next available block\n");
+		if (!block->used && block->size >= size) {
+			return block;
+		}
+		block = block->next;
+	}
+	if (!block->next) {
+		set_new_block(block->next, size);
+	}
 	(void)size;
+	(void)region;
+	return NULL;
 }
