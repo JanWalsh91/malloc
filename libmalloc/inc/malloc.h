@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/15 15:23:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/16 10:33:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define BLOCK_HEADER_SIZE (sizeof(struct s_block) - 4)
 # define REGION_HEADER_SIZE (sizeof(struct s_region) - 4)
 # define align4(x) (((((x)-1)>>2)<<2)+4)
+# define TINY_LIMIT 512
+# define SMALL_LIMIT 4096
 // block for a single malloc allocation
 typedef struct s_block	*t_block;
 
@@ -52,13 +54,26 @@ struct					s_region {
 	int				content;
 };
 
+typedef struct	s_lists
+{
+	t_region			tiny;
+	t_region			small;
+	t_region			large;
+	size_t				total_size;
+}				t_lists;
+
+t_lists			g_lists;
+
 void		free(void *ptr);
 void		*malloc(size_t size);
 void		*realloc(void *ptr, size_t size);
-// void		show_alloc_mem();
+void		show_alloc_mem();
+
+// global
+void		init_lists();
 
 // region
-t_region	*get_first_region();
+t_region	*get_first_region(size_t size);
 t_region	get_next_available_region(size_t size);
 t_region	get_new_region(size_t size);
 t_block		get_next_available_block_in_region(t_region region, size_t size);

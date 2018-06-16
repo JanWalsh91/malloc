@@ -6,17 +6,19 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/15 15:41:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/16 10:28:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-t_region	*get_first_region() {
-	static	t_region first_region = NULL;
-	printf("get_first_region %p\n", first_region);
-
-	return &first_region;
+t_region	*get_first_region(size_t size) {
+	printf("get_first_region size: %lu\n", size);
+	if (size <= TINY_LIMIT)
+		return &g_lists.tiny;
+	if (size <= SMALL_LIMIT)
+		return &g_lists.small;
+	return &g_lists.large;
 }
 
 t_region	get_new_region(size_t size) {
@@ -48,7 +50,7 @@ t_region	get_new_region(size_t size) {
 // gets next region with enough space to allocate 'size' + header
 t_region	get_next_available_region(size_t size) {
 	printf("get_next_available_region\n");
-	t_region	*first_region = get_first_region();
+	t_region	*first_region = get_first_region(size);
 	t_region 	region = NULL;
 	// get a new region if none is allocated yet,
 	// else get last region? or region with enough space.
