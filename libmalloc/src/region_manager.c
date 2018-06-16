@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/16 10:28:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/16 14:27:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_region	get_new_region(size_t size) {
 	region->content = 0;
 	region->largest_free_space = final_size - REGION_HEADER_SIZE;
 	region->space_at_end = region->largest_free_space;
+	printf("new region. size: %lu, free_space: %lu\n", region->size, region->largest_free_space);
 	return (region);
 }
 
@@ -55,49 +56,49 @@ t_region	get_next_available_region(size_t size) {
 	// get a new region if none is allocated yet,
 	// else get last region? or region with enough space.
 	if (*first_region == NULL) {
-		printf("no first region\n");
+		printf("first region NULL\n");
 		*first_region = get_new_region(size);
-		set_new_block(&((*first_region)->content), *first_region, 0);
-		return(*first_region);
+		return (*first_region);
 	}
 	else {
 		printf("looking for region with free space\n");
 		region = *first_region;
-
-		// get last region with enough space to allocate size + BLOCK_HEADER_SIZE
 		while (region && region->largest_free_space < size + BLOCK_HEADER_SIZE) {
 			region = region->next;
 		}
-		if (!region) {
+		if (!region)
 			region = get_new_region(size);
-			set_new_block(&(region->content), *first_region, 0);
-		}
 		return (region);
 	}
 }
 
 t_block get_next_available_block_in_region(t_region region, size_t size) {
-	// static int first_call = 1;
-	
 	printf("get_next_available_block_in_region\n");
-	// no content
-	// if (first_call == 1) {
-	// 	first_call = 0;
-	// 	printf("\tno region\n");
-	// 	set_new_block(&region->content, region, size);
-	// 	printf("\tnew block: %p\n", &region->content);
-	// 	return (t_block)&region->content;
-	// }
+	
 	t_block block = (t_block)&region->content;
-	while (block->next) {
-		printf("\tlooking for next available block\n");
+	if (region->content == 0) {
+		set_new_block(block, size);
+		link_blocks(NULL, block);
+		update_region_header(region, size);
+		return block;
+	}	
+	while (block) {
+		printf("next block: size: %lu, free: %d\n", block->size, block->free);
 		if (block->free && block->size >= size) {
+			printf("Found free block with enough space\n");
+			set_new_block(&region->content, size);
 			return block;
 		}
-		block = block->next;
+		if (block->next)
+			block = block->next;
+		else
+			break ;
 	}
-	if (!block->next) {
-		return (add_new_block(block, region, size));
-	}
-	return NULL;
+	set_new_block((t_block)((char *)block + block->size + BLOCK_HEADER_SIZE), size);
+	link_blocks(block, (t_block)((char *)block + block->size + BLOCK_HEADER_SIZE));
+	return block->next;
+}
+
+void	update_region_header(t_region region, size_t size) {
+	
 }
