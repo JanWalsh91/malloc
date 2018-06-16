@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/16 10:45:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/16 11:54:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <libft.h>
-# include <ft_printf.h>
+# include "../libft/inc/libft.h"
 
 # define BLOCK_HEADER_SIZE (sizeof(struct s_block) - 4)
 # define REGION_HEADER_SIZE (sizeof(struct s_region) - 4)
 # define align4(x) (((((x)-1)>>2)<<2)+4)
 # define TINY_LIMIT 512
 # define SMALL_LIMIT 4096
+# define LIST_NAMES (const char**){"TINY", "SMALL", "LARGE"}
 // block for a single malloc allocation
 typedef struct s_block	*t_block;
 
@@ -62,6 +62,7 @@ typedef struct	s_lists
 	t_region			small;
 	t_region			large;
 	size_t				total_size;
+	const char*			names[3];
 }				t_lists;
 
 t_lists			g_lists;
@@ -84,5 +85,12 @@ t_block		get_next_available_block_in_region(t_region region, size_t size);
 void	 	set_new_block(void* ptr, t_region region, size_t size);
 t_block	 	add_new_block(t_block block, t_region region, size_t size);
 void		*get_block_content(t_block block);
+
+// helper function
+void		putbase(size_t n, size_t base);
+
+// print
+void		print_region(t_region region, int i);
+void		print_block(t_block block);
 
 #endif

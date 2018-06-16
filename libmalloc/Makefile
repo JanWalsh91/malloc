@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/16 10:48:48 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/16 11:10:04 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ SRCS := malloc \
 		realloc \
 		free \
 		region_manager \
-		block_manager
+		block_manager \
+		show_alloc_mem \
+		putbase
 
 EXT  :=.c
 SRCS := $(addsuffix $(EXT), $(SRCS))
@@ -44,7 +46,7 @@ CFLAGS := -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -shared $^ -o $(NAME)
+	@$(CC) $(CFLAGS) -I$(LIBFT_INC_PATH) -L$(LIBFT_PATH) -lft -shared $^ -o $(NAME)
 	@rm -f $(SYM_NAME)
 	@ln -s $(NAME) $(SYM_NAME)
 	@echo libft_malloc compiled and linked
