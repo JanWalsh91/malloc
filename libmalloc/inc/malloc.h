@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/16 10:33:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/16 10:45:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <libft.h>
+# include <ft_printf.h>
 
 # define BLOCK_HEADER_SIZE (sizeof(struct s_block) - 4)
 # define REGION_HEADER_SIZE (sizeof(struct s_region) - 4)

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/11 15:59:02 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/16 10:48:48 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,9 @@ SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 HEADERS := malloc.h
 HEADER_DIR := ./inc/
 HEADERS := $(addprefix $(HEADER_DIR), $(HEADERS))
+LIBFT := libft.a
+LIBFT_PATH := libft/
+LIBFT_INC_PATH := libft/inc/
 
 CC := gcc
 CFLAGS := -Wall -Werror -Wextra
@@ -46,10 +49,14 @@ $(NAME): $(OBJS)
 	@ln -s $(NAME) $(SYM_NAME)
 	@echo libft_malloc compiled and linked
 
-$(OBJS): | $(OBJS_DIR)
+$(OBJS): | $(OBJS_DIR) $(LIBFT_PATH)$(LIBFT)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
-	@$(CC) -fPIC -I$(HEADER_DIR) $(CFLAGS) -o $@ -c $<
+	@make -s -C $(LIBFT_PATH)
+	@$(CC) -fPIC -I$(HEADER_DIR) -I$(LIBFT_INC_PATH) $(CFLAGS) -o $@ -c $<
+
+$(LIBFT_PATH)$(LIBFT):
+	@make -s -C $(LIBFT_PATH)
 
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
