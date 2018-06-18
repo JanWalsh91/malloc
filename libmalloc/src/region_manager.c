@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 13:42:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 15:22:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,4 +179,18 @@ t_block		get_block_from_new_region(t_region region, size_t size) {
 	}
 	region->next = get_new_region(size);
 	return (find_block_at_end_of_region(region->next, size));
+}
+
+size_t		get_size_of_free_space_at_end_of_region(t_region region) {
+	char	*r_end;
+	char	*b_end;
+
+	r_end = (char *)region + region->size;
+	b_end = (char *)region->after_last_block;
+	return ((size_t)(r_end) - (size_t)(b_end));
+}
+
+void		update_last_block_info(t_region region, t_block block) {
+	region->last_block = block;
+	region->after_last_block = (t_block)((char *)block + block->size + BLOCK_HEADER_SIZE);
 }

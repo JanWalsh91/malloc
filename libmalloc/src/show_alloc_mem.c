@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 13:22:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 15:04:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	show_alloc_mem() {
 	// ft_putstr("Total : ");
 	// ft_putnbr(g_lists.total_size);
 	// ft_putstr(" octets\n");
+	ft_putchar('\n');
 }
 
 
@@ -41,7 +42,7 @@ void	print_region_list(t_region region, int i) {
 	putbase((size_t)(region), 16);
 	ft_putchar('\n');
 	while (region) {
-		printf(" max_size: %lu\n", region->size);
+		printf("Mapping: %p : size %lu\n", region, region->size);
 		block = (t_block)&region->content;
 		while (block != NULL)
 		{

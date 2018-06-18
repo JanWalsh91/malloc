@@ -6,13 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 14:27:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 15:05:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
 void		*malloc(size_t size) {
+	printf("malloc %lu bytes\n", size);
 	t_block block;
 	t_region region;
 	

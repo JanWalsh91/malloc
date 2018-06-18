@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 14:29:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 15:22:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int			region_has_space(t_region region, size_t size);
 t_block		find_block_at_end_of_region(t_region region, size_t size);
 t_block		find_block_in_freed_space(t_region region, size_t size);
 t_block		get_block_from_new_region(t_region region, size_t size);
+size_t		get_size_of_free_space_at_end_of_region(t_region region);
+void		update_last_block_info(t_region region, t_block block);
 
 // block
 void		set_new_block(void *ptr, size_t size);
@@ -104,4 +106,8 @@ t_region	get_region_containing_pointer(void *ptr);
 t_block		get_block_containing_pointer(t_region region, void *ptr);
 void		defragment(t_region region, t_block block);
 void		merge(t_block block1, t_block block2);
+
+// realloc
+void		split_block(t_block block, size_t size);
+
 #endif

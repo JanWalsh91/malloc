@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 14:26:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 14:32:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	link_blocks(t_block prev, t_block current) {
 }
 
 void	unset_block(t_region region, t_block block) {
+	// dont unset it if its the first
 	if (!block->prev) {
 		return ;
 	}
