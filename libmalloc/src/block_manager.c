@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/16 13:41:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 14:26:18 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	 set_new_block(void *ptr, size_t size) {
 // 	return block->next;
 // }
 
+
 void	*get_block_content(t_block block) {
 	if (!block->free) {
 		return ((void *)&block->content);	
@@ -53,4 +54,14 @@ void	link_blocks(t_block prev, t_block current) {
 		prev->next = current;
 	current->prev = prev;
 	current->next = NULL;
+}
+
+void	unset_block(t_region region, t_block block) {
+	if (!block->prev) {
+		return ;
+	}
+
+	block->prev->next = NULL;
+	region->last_block = block->prev;
+	region->after_last_block = block;
 }

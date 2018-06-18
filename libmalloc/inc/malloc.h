@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 13:41:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 14:29:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define align4(x) (((((x)-1)>>2)<<2)+4)
 # define TINY_LIMIT 512
 # define SMALL_LIMIT 4096
-# define LIST_NAMES (const char**){"TINY", "SMALL", "LARGE"}
 // block for a single malloc allocation
 typedef struct s_block	*t_block;
 
@@ -85,11 +84,13 @@ int			region_has_space(t_region region, size_t size);
 t_block		find_block_at_end_of_region(t_region region, size_t size);
 t_block		find_block_in_freed_space(t_region region, size_t size);
 t_block		get_block_from_new_region(t_region region, size_t size);
+
 // block
 void		set_new_block(void *ptr, size_t size);
 // t_block	 	add_new_block(t_block block, t_region region, size_t size);
 void		*get_block_content(t_block block);
 void		link_blocks(t_block prev, t_block current);
+void		unset_block(t_region region, t_block block);
 
 // print
 void		print_region_list(t_region region, int i);
@@ -98,4 +99,9 @@ void		print_block(t_block block);
 // helper functions
 void		putbase(size_t n, size_t base);
 
+// free
+t_region	get_region_containing_pointer(void *ptr);
+t_block		get_block_containing_pointer(t_region region, void *ptr);
+void		defragment(t_region region, t_block block);
+void		merge(t_block block1, t_block block2);
 #endif
