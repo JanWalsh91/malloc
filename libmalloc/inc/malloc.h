@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/16 14:27:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/18 13:41:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ typedef struct s_region	*t_region;
 struct					s_region {
 	// number of pages in region. necessary?
 	size_t			nb_pages;
-	// total allocated size or available size ?
+	// total allocated size
 	size_t 			size;
 	// pointer to next region
 	t_region		next;
-	// size of largest free space
-	size_t			largest_free_space;
-	size_t			space_at_end;
+	// pointer to last block
+	t_block			last_block;
+	t_block			after_last_block;
 	// location of first block
 	size_t				content;
 };
@@ -76,12 +76,15 @@ void		show_alloc_mem();
 void		init_lists();
 
 // region
+t_region	get_region_head(size_t size);
 t_region	*get_first_region(size_t size);
-t_region	get_next_available_region(size_t size);
+// t_region	get_next_available_region(size_t size);
 t_region	get_new_region(size_t size);
-t_block		get_next_available_block_in_region(t_region region, size_t size);
-void		update_region_header(t_region region, size_t size);
-
+// t_block		get_next_available_block_in_region(t_region region, size_t size);
+int			region_has_space(t_region region, size_t size);
+t_block		find_block_at_end_of_region(t_region region, size_t size);
+t_block		find_block_in_freed_space(t_region region, size_t size);
+t_block		get_block_from_new_region(t_region region, size_t size);
 // block
 void		set_new_block(void *ptr, size_t size);
 // t_block	 	add_new_block(t_block block, t_region region, size_t size);
@@ -89,7 +92,7 @@ void		*get_block_content(t_block block);
 void		link_blocks(t_block prev, t_block current);
 
 // print
-void		print_region(t_region region, int i);
+void		print_region_list(t_region region, int i);
 void		print_block(t_block block);
 
 // helper functions
