@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 13:28:27 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/11 13:56:47 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/19 15:07:53 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIB_NAME := ft_malloc
 LIB_PATH := libmalloc/
 LIB_INC := $(LIB_PATH)inc
 
-SRC := main.c
+SRC := test6.c
 
 CFLAGS := -Wall -Werror -Wextra
 

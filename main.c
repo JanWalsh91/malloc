@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:18:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 15:05:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/19 13:32:15 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	main(void)
 	// int *ptr = NULL;
 	
 	printf("======= 1\n");
-	ptr = (int *)malloc(sizeof(int) * 50);
+	ptr = (int *)malloc(sizeof(int) * 2);
 	// show_alloc_mem();
 	printf("======= 2\n");
-	ptr2 = (int *)malloc(sizeof(int) * 50);
+	ptr2 = (int *)malloc(sizeof(int) * 3);
 	// show_alloc_mem();
 	// for (int i = 0; i < 5; i++) {
 	// 	printf("==== %d ====\n", i);
@@ -33,11 +33,13 @@ int	main(void)
 	// }
 
 	// free(ptr2);
+	int *ptr3 = NULL;
+	ptr3 = (int *)malloc(sizeof(int) * 4);
+	free(ptr3);
 	// free(ptr);
 	show_alloc_mem();
-	ptr2 = realloc(ptr2, sizeof(int) * 100);
+	ptr2 = realloc(ptr2, sizeof(int) * 5);
 	show_alloc_mem();
-
 	// printf("======= 3\n");
 	// ptr = (int *)malloc(sizeof(int) * 100);
 	// show_alloc_mem();

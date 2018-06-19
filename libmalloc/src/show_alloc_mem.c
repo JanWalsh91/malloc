@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 15:04:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/19 14:37:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	print_region_list(t_region region, int i) {
 	t_block block;
 	
 	ft_putstr(g_lists.names[i]);
-	ft_putstr(" : 0x");
+	// ft_putstr(" : 0x");
 	// putbase((size_t)&region->content, 16);
-	putbase((size_t)(region), 16);
+	// putbase((size_t)(region), 16);
 	ft_putchar('\n');
 	while (region) {
 		printf("Mapping: %p : size %lu\n", region, region->size);
@@ -48,6 +48,7 @@ void	print_region_list(t_region region, int i) {
 		{
 			print_block(block);
 			block = block->next;
+			// printf("next block: %p\n", block);
 		}
 		region = region->next;
 	}

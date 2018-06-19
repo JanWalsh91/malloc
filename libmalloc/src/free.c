@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/18 14:42:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/19 14:38:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void		free(void *ptr) {
 	t_block		block;
 
 	region = get_region_containing_pointer(ptr);
-	printf("region with pointer: %p\n", region);
+	// printf("region with pointer: %p\n", region);
 	if (!region)
 		return ; 
 	block = get_block_containing_pointer(region, ptr);
-	printf("block with pointer: %p\n", block);
+	// printf("block with pointer: %p\n", block);
 	if (!block)
 		return ;
 	block->free = 1;
@@ -67,15 +67,17 @@ t_block	get_block_containing_pointer(t_region region, void *ptr) {
 }
 
 void	defragment(t_region region, t_block block) {
-	printf("defrag\n");
+	// printf("defrag\n");
 	if (!block->free) {
 		return ;
 	}
 	if (block->next && block->next->free) {
-		merge(block, block->next);
+		// printf("merge block with next\n");
+		merge(region, block, block->next);
 	}
 	if (block->prev && block->prev->free) {
-		merge(block->prev, block);
+		// printf("merge block with prev\n");
+		merge(region, block->prev, block);
 		block = block->prev;
 	}
 	if (!block->next) {
@@ -83,7 +85,12 @@ void	defragment(t_region region, t_block block) {
 	}
 }
 
-void	merge(t_block block1, t_block block2) {
+void	merge(t_region region, t_block block1, t_block block2) {
+	// printf("merging\n");
 	block1->next = block2->next;
 	block1->size += block2->size + BLOCK_HEADER_SIZE;
+	// printf("block1->size += block2->size + BLOCK_HEADER_SIZE\n");
+	// printf("%lu += %lu + %lu\n", block1->size, block2->size, BLOCK_HEADER_SIZE);
+	// printf("block: %p, next: %p\n", block1, block1->next);
+	update_last_block_info(region, block1);
 }
