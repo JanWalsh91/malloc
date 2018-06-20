@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 14:38:03 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/20 15:29:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	link_blocks(t_block prev, t_block current) {
 	// printf("link blocks: prev: %p and current: %p\n", prev, current);
 	if (prev)
 		prev->next = current;
-	current->prev = prev;
+	if (current)
+		current->prev = prev;
 }
 
 void	unset_block(t_region region, t_block block) {

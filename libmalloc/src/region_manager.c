@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 14:55:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/20 15:23:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,13 @@ t_block		find_block_in_freed_space(t_region region, size_t size) {
 
 t_block		get_block_from_new_region(t_region region, size_t size) {
 	// printf("get_block_from_new_region\n");
+	t_region	new_region;
+
 	while (region->next) {
 		region = region->next;
 	}
-	region->next = get_new_region(size);
+	new_region = get_new_region(size);
+	link_regions(region, new_region);
 	return (find_block_at_end_of_region(region->next, size));
 }
 
@@ -147,4 +150,53 @@ size_t		get_size_of_free_space_at_end_of_region(t_region region) {
 void		update_last_block_info(t_region region, t_block block) {
 	region->last_block = block;
 	region->after_last_block = (t_block)((char *)block + block->size + BLOCK_HEADER_SIZE);
+}
+
+void		link_regions(t_region prev, t_region current) {
+	if (prev)
+		prev->next = current;
+	current->prev = prev;
+}
+
+int			region_is_free(t_region region) {
+	t_block block;
+
+	block = (t_block)&region->content;
+	while (block) {
+		if (!block->free) {
+			return (0);
+		}
+		block = block->next;
+	}
+	return (1);
+}
+
+void		try_to_unmap_regions(t_region region) {
+	int	nb_free_regions;
+
+	nb_free_regions = 0;
+	while (region) {
+		if (region_is_free(region)) {
+			++nb_free_regions;
+			if (nb_free_regions >= 2) {
+				unmap_region(region);
+				return ;
+			}
+		}
+		region = region->next;
+	}
+}
+
+// can never be called on first region
+void		unmap_region(t_region region) {
+	printf("unmap region\n");
+	t_region prev;
+	t_region next;
+
+	if (!region->prev)
+		return ;
+	prev = region->prev;
+	next = region->next;
+	munmap(region, region->size);
+	prev->next = next;
 }

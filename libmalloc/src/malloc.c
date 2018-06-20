@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 14:46:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/20 15:06:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void		*malloc(size_t size) {
 	region = get_region_head(size);
 	// printf("region: %p\n", region);
 	block = find_block_at_end_of_region(region, size);
-	block ? printf("found block at end of region: %p\n", block) : printf("no block space at end of regions\n");
+	// block ? printf("found block at end of region: %p\n", block) : printf("no block space at end of regions\n");
 	// block ? printf("block: %p, prev: %p,  prevnext: %p\n", block, block->prev, block->prev ? block->prev->next : 0) : 0;
 	if (block) return (get_block_content(block));
 	block = find_block_in_freed_space(region, size);
-	block ? printf("found block in freed space: %p\n", block) : printf("no block in freed space of regions\n");
+	// block ? printf("found block in freed space: %p\n", block) : printf("no block in freed space of regions\n");
 	if (block) return (get_block_content(block));
 	block = get_block_from_new_region(region, size);
 	if (block) {

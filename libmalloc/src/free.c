@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 14:38:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/20 15:30:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void		free(void *ptr) {
 		return ;
 	block->free = 1;
 	defragment(region, block);
+	while (region->prev)
+		region = region->prev;
+	try_to_unmap_regions(region);
 }
 
 t_region	get_region_containing_pointer(void *ptr) {
@@ -86,9 +89,12 @@ void	defragment(t_region region, t_block block) {
 }
 
 void	merge(t_region region, t_block block1, t_block block2) {
-	// printf("merging\n");
-	block1->next = block2->next;
+	printf("merging %p and %p\n", &block1->content, &block2->content);
+	t_block next;
+
+	next = block2->next;
 	block1->size += block2->size + BLOCK_HEADER_SIZE;
+	link_blocks(block1, next);
 	// printf("block1->size += block2->size + BLOCK_HEADER_SIZE\n");
 	// printf("%lu += %lu + %lu\n", block1->size, block2->size, BLOCK_HEADER_SIZE);
 	// printf("block: %p, next: %p\n", block1, block1->next);

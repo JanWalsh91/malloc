@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 14:31:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/20 15:03:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ struct					s_region {
 	size_t 			size;
 	// pointer to next region
 	t_region		next;
+	// pointer to prev region
+	t_region		prev;
 	// pointer to last block
 	t_block			last_block;
 	t_block			after_last_block;
@@ -84,6 +86,10 @@ t_block		find_block_in_freed_space(t_region region, size_t size);
 t_block		get_block_from_new_region(t_region region, size_t size);
 size_t		get_size_of_free_space_at_end_of_region(t_region region);
 void		update_last_block_info(t_region region, t_block block);
+void		link_regions(t_region prev, t_region current);
+int			region_is_free(t_region region);
+void		try_to_unmap_regions(t_region region);
+void		unmap_region(t_region region);
 
 // block
 void		set_new_block(void *ptr, size_t size);
