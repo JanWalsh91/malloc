@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/16 11:10:04 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/21 12:29:07 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS := malloc \
 		region_manager \
 		block_manager \
 		show_alloc_mem \
-		putbase
+		putbase \
+		print_mmap_error 
 
 EXT  :=.c
 SRCS := $(addsuffix $(EXT), $(SRCS))
@@ -47,7 +48,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -I$(LIBFT_INC_PATH) -L$(LIBFT_PATH) -lft -shared $^ -o $(NAME)
-	@rm -f $(SYM_NAME)
 	@ln -s $(NAME) $(SYM_NAME)
 	@echo libft_malloc compiled and linked
 
@@ -55,8 +55,8 @@ $(OBJS): | $(OBJS_DIR) $(LIBFT_PATH)$(LIBFT)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 	@make -s -C $(LIBFT_PATH)
-	@$(CC) -fPIC -I$(HEADER_DIR) -I$(LIBFT_INC_PATH) $(CFLAGS) -o $@ -c $<
-
+	@$(CC) -fPIC -I$(HEADER_DIR) -I$(LIBFT_INC_PATH) $(CFLAGS) -o $@ -c $< -fvisibility=hidden
+ 
 $(LIBFT_PATH)$(LIBFT):
 	@make -s -C $(LIBFT_PATH)
 

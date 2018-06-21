@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/20 15:06:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/21 11:28:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		*malloc(size_t size) {
 	t_block block;
 	t_region region;
 	
-	if (size == 0) {
+	if (size <= 0) {
 		return (NULL);
 	}
 	init_lists();
@@ -26,7 +26,9 @@ void		*malloc(size_t size) {
 	region = NULL;
 	// gets correct region head from first 
 	region = get_region_head(size);
-	// printf("region: %p\n", region);
+	printf("region: %p\n", region);
+	if (!region)
+		return (NULL);
 	block = find_block_at_end_of_region(region, size);
 	// block ? printf("found block at end of region: %p\n", block) : printf("no block space at end of regions\n");
 	// block ? printf("block: %p, prev: %p,  prevnext: %p\n", block, block->prev, block->prev ? block->prev->next : 0) : 0;

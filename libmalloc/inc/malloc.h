@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/20 15:03:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/21 12:30:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <errno.h> 
 # include "../libft/inc/libft.h"
 
+# define EXPORT __attribute__ ((visibility("default")))
 # define BLOCK_HEADER_SIZE (sizeof(struct s_block) - 4)
 # define REGION_HEADER_SIZE (sizeof(struct s_region) - 8)
 # define align4(x) (((((x)-1)>>2)<<2)+4)
@@ -68,10 +70,10 @@ typedef struct	s_lists
 
 t_lists			g_lists;
 
-void		free(void *ptr);
-void		*malloc(size_t size);
-void		*realloc(void *ptr, size_t size);
-void		show_alloc_mem();
+void		free(void *ptr) EXPORT;
+void		*malloc(size_t size) EXPORT;
+void		*realloc(void *ptr, size_t size) EXPORT;
+void		show_alloc_mem() EXPORT;
 
 // global
 void		init_lists();
@@ -103,6 +105,7 @@ void		print_block(t_block block);
 
 // helper functions
 void		putbase(size_t n, size_t base);
+void		print_mmap_error(void);
 
 // free
 t_region	get_region_containing_pointer(void *ptr);

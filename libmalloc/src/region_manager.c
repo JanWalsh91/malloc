@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/20 15:23:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/21 11:37:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ t_region	get_new_region(size_t size) {
 
 	region = NULL;
 	size = size + BLOCK_HEADER_SIZE;
+	if (size <= BLOCK_HEADER_SIZE) {
+		// printf("Size too small: %lu\n", size);
+		return (NULL);
+	}
+	// printf("size with header: %lu\n", size);
 	// size + s_regionize must be a multiple of page size
 	// TODO: adjust according to TINY SMALL and LARGE allocations
 	size_t page_size = getpagesize();
@@ -38,6 +43,13 @@ t_region	get_new_region(size_t size) {
 	// printf("final_size: %lu\n", final_size);
 	
 	region = mmap(0, final_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	if (region == MAP_FAILED) {
+		// printf("MAP_FAILED: %p\n", MAP_FAILED);
+		// printf("mmap result: region: %p\n", region);
+		print_mmap_error();
+		errno = ENOMEM;
+		return (NULL);
+	}
 	region->nb_pages = page_count;
 	region->size = final_size;
 	region->next = NULL;
@@ -66,7 +78,7 @@ int		region_has_space(t_region region, size_t size) {
 
 // get head of correct region (tiny small large) and creates a new region if none exists
 t_region	get_region_head(size_t size) {
-	// printf("get_region. size: %lu\n", size);
+	printf("get_region. size: %lu\n", size);
 	t_region *head;
 	
 	head = NULL;
@@ -79,7 +91,7 @@ t_region	get_region_head(size_t size) {
 }
 
 t_block		find_block_at_end_of_region(t_region region, size_t size) {
-	// printf("find_block_at_end_of_region\n");
+	printf("find_block_at_end_of_region\n");
 	t_block block;
 
 	block = NULL;
@@ -104,7 +116,7 @@ t_block		find_block_at_end_of_region(t_region region, size_t size) {
 }
 
 t_block		find_block_in_freed_space(t_region region, size_t size) {
-	// printf("find_block_in_freed_space for size %lu\n", size);
+	printf("find_block_in_freed_space for size %lu\n", size);
 	t_block		block;
 
 	block = NULL;
@@ -113,7 +125,8 @@ t_block		find_block_in_freed_space(t_region region, size_t size) {
 		block = (t_block)&region->content;
 		while (block) {
 			// printf("checking block: %p, free: %s, size: %lu\n", block, block->free ? "yes" : "no", block->size);
-			if (block->free && block->size >= size + BLOCK_HEADER_SIZE) {
+			if (block->free && block->size >= size) {
+				// printf("Found block\n");
 				set_new_block(block, size);
 				//update end block
 				update_last_block_info(region, block);
@@ -123,17 +136,21 @@ t_block		find_block_in_freed_space(t_region region, size_t size) {
 		}		
 		region = region->next;
 	}
+	printf("returning: %p\n", block);
 	return (block);
 }
 
 t_block		get_block_from_new_region(t_region region, size_t size) {
-	// printf("get_block_from_new_region\n");
+	printf("get_block_from_new_region\n");
 	t_region	new_region;
 
 	while (region->next) {
 		region = region->next;
 	}
 	new_region = get_new_region(size);
+	if (!new_region) {
+		return (NULL);
+	}
 	link_regions(region, new_region);
 	return (find_block_at_end_of_region(region->next, size));
 }
