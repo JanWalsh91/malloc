@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_mmap_error.c                                 :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 11:21:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 13:58:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 14:22:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,15 @@
 void	print_mmap_error(void)
 {
 	ft_putstr("*** error: can't allocate region\n");
+}
+
+void	print_free_error(void *ptr)
+{
+	if (ptr)
+	{
+		ft_putstr("*** error for object 0x");
+		putbase((size_t)(ptr), 16);
+		ft_putstr(": pointer being freed was not allocated\n");
+		abort();
+	}
 }

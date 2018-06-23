@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:12:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 14:22:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ void		free(void *ptr)
 
 	region = get_region_containing_pointer(ptr);
 	// printf("region with pointer: %p\n", region);
-	if (!region)
-		return ; 
+	if (!region) {
+		print_free_error(ptr);
+		return ;
+	}
 	block = get_block_containing_pointer(region, ptr);
 	// printf("block with pointer: %p\n", block);
-	if (!block)
+	if (!block) {
+		print_free_error(ptr);
 		return ;
+	}
 	block->free = 1;
 	defragment(region, block);
 	while (region->prev)

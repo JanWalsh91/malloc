@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:11:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 14:18:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void		print_block(t_block block);
 // helper functions
 void		putbase(size_t n, size_t base);
 void		print_mmap_error(void);
+void		print_free_error(void *ptr);
 
 // free
 t_region	get_region_containing_pointer(void *ptr);
