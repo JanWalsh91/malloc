@@ -6,11 +6,15 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/21 11:37:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 13:37:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+/*
+** Returns the region list corresponding to allocation size request
+*/
 
 t_region	*get_first_region(size_t size) {
 	// printf("get_first_region size: %lu\n", size);
@@ -21,36 +25,44 @@ t_region	*get_first_region(size_t size) {
 	return &g_lists.large;
 }
 
+/*
+** Returns the mininum map size depending on size to allocated
+*/
+size_t		get_region_min_map_size(size_t size) {
+	if (size <= TINY_LIMIT) {
+		return (TINY_MIN_MAP_SIZE);
+	}
+	else if (size <= SMALL_LIMIT) {
+		return (SMALL_MIN_MAP_SIZE);
+	}
+	else {
+		// ensure that size is a mulitple of getpagesize()
+		size_t page_size = getpagesize();
+		size_t page_count = (size + REGION_HEADER_SIZE) / page_size + 1;
+		return  (page_count * page_size);
+	}
+}
+
 t_region	get_new_region(size_t size) {
 	// printf("get_new_region: size: %lu\n", size);
 	// use mmap to allocate region
-	t_region region;
+	t_region	region;
+	size_t		final_size;
 
 	region = NULL;
 	size = size + BLOCK_HEADER_SIZE;
 	if (size <= BLOCK_HEADER_SIZE) {
-		// printf("Size too small: %lu\n", size);
 		return (NULL);
 	}
-	// printf("size with header: %lu\n", size);
-	// size + s_regionize must be a multiple of page size
-	// TODO: adjust according to TINY SMALL and LARGE allocations
-	size_t page_size = getpagesize();
-	// printf("page size: %lu\n", page_size);
-	size_t page_count = (size + REGION_HEADER_SIZE) / page_size + 1;
-	// printf("page_count: %lu\n", page_count);
-	size_t final_size = page_count * page_size;
-	// printf("final_size: %lu\n", final_size);
-	
+
+	final_size = get_region_min_map_size(size);
+	printf("final_size: %lu\n", final_size);
 	region = mmap(0, final_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	if (region == MAP_FAILED) {
-		// printf("MAP_FAILED: %p\n", MAP_FAILED);
-		// printf("mmap result: region: %p\n", region);
 		print_mmap_error();
 		errno = ENOMEM;
 		return (NULL);
 	}
-	region->nb_pages = page_count;
 	region->size = final_size;
 	region->next = NULL;
 	region->last_block = NULL;
@@ -74,11 +86,9 @@ int		region_has_space(t_region region, size_t size) {
 	}
 }
 
-// new functions
-
 // get head of correct region (tiny small large) and creates a new region if none exists
 t_region	get_region_head(size_t size) {
-	printf("get_region. size: %lu\n", size);
+	// printf("get_region. size: %lu\n", size);
 	t_region *head;
 	
 	head = NULL;
@@ -91,7 +101,7 @@ t_region	get_region_head(size_t size) {
 }
 
 t_block		find_block_at_end_of_region(t_region region, size_t size) {
-	printf("find_block_at_end_of_region\n");
+	// printf("find_block_at_end_of_region\n");
 	t_block block;
 
 	block = NULL;
@@ -116,7 +126,7 @@ t_block		find_block_at_end_of_region(t_region region, size_t size) {
 }
 
 t_block		find_block_in_freed_space(t_region region, size_t size) {
-	printf("find_block_in_freed_space for size %lu\n", size);
+	// printf("find_block_in_freed_space for size %lu\n", size);
 	t_block		block;
 
 	block = NULL;
@@ -136,12 +146,12 @@ t_block		find_block_in_freed_space(t_region region, size_t size) {
 		}		
 		region = region->next;
 	}
-	printf("returning: %p\n", block);
+	// printf("returning: %p\n", block);
 	return (block);
 }
 
 t_block		get_block_from_new_region(t_region region, size_t size) {
-	printf("get_block_from_new_region\n");
+	// printf("get_block_from_new_region\n");
 	t_region	new_region;
 
 	while (region->next) {
@@ -206,7 +216,7 @@ void		try_to_unmap_regions(t_region region) {
 
 // can never be called on first region
 void		unmap_region(t_region region) {
-	printf("unmap region\n");
+	// printf("unmap region\n");
 	t_region prev;
 	t_region next;
 

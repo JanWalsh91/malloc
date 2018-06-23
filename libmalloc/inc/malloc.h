@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/21 12:30:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 13:35:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 # include "../libft/inc/libft.h"
 
 # define EXPORT __attribute__ ((visibility("default")))
-# define BLOCK_HEADER_SIZE (sizeof(struct s_block) - 4)
-# define REGION_HEADER_SIZE (sizeof(struct s_region) - 8)
+# define BLOCK_HEADER_SIZE (sizeof(struct s_block) - sizeof(int))
+# define REGION_HEADER_SIZE (sizeof(struct s_region) - sizeof(size_t))
 # define align4(x) (((((x)-1)>>2)<<2)+4)
-# define TINY_LIMIT 512
-# define SMALL_LIMIT 4096
+# define TINY_LIMIT (size_t)getpagesize()
+# define SMALL_LIMIT (TINY_LIMIT * TINY_LIMIT)
+# define TINY_MIN_MAP_SIZE (TINY_LIMIT * 200)
+# define SMALL_MIN_MAP_SIZE (SMALL_LIMIT * 100)
+
 // block for a single malloc allocation
 typedef struct s_block	*t_block;
 
@@ -44,8 +47,6 @@ struct					s_block {
 typedef struct s_region	*t_region;
 
 struct					s_region {
-	// number of pages in region. necessary?
-	size_t			nb_pages;
 	// total allocated size
 	size_t 			size;
 	// pointer to next region
@@ -92,6 +93,7 @@ void		link_regions(t_region prev, t_region current);
 int			region_is_free(t_region region);
 void		try_to_unmap_regions(t_region region);
 void		unmap_region(t_region region);
+size_t		get_region_min_map_size(size_t size);
 
 // block
 void		set_new_block(void *ptr, size_t size);
