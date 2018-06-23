@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 14:37:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 13:45:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	show_alloc_mem() {
 	lists[0] = g_lists.tiny;
 	lists[1] = g_lists.small;
 	lists[2] = g_lists.large;
+	g_lists.total_size = 0;
 	ft_putchar('\n');
 	i = -1;
 	while (++i < 3)
@@ -26,9 +27,9 @@ void	show_alloc_mem() {
 		if (lists[i])
 			print_region_list(lists[i], i);
 	}
-	// ft_putstr("Total : ");
-	// ft_putnbr(g_lists.total_size);
-	// ft_putstr(" octets\n");
+	ft_putstr("Total : ");
+	ft_putnbr(g_lists.total_size);
+	ft_putstr(" octets\n");
 	ft_putchar('\n');
 }
 
@@ -66,4 +67,5 @@ void	print_block(t_block block) {
 	if (block->free)
 		ft_putstr(" (free)");
 	ft_putchar('\n');
+	g_lists.total_size += block->size;
 }

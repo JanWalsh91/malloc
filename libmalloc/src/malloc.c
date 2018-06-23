@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 13:36:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 13:43:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	init_lists() {
 		g_lists.tiny = NULL;
 		g_lists.small = NULL;
 		g_lists.large = NULL;
-		g_lists.total_size = 0;
 		g_lists.names[0] = "TINY";
 		g_lists.names[1] = "SMALL";
 		g_lists.names[2] = "LARGE";
