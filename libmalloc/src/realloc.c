@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:33 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/21 11:40:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 14:07:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		*realloc(void *ptr, size_t size) {	
+void		*realloc(void *ptr, size_t size) {
 	printf("realloc %p, size: %lu\n", ptr, size);
 	t_region	region;
 	t_block		block;
@@ -60,11 +60,12 @@ void		*realloc(void *ptr, size_t size) {
 	return (ptr);
 }
 
-void	split_block(t_region region, t_block block, size_t size) {
+void	split_block(t_region region, t_block block, size_t size)
+{
 	// printf("split_block\n");
-	t_block tmp;
-	t_block new_block;
-	
+	t_block	tmp;
+	t_block	new_block;
+
 	new_block = (t_block)(size_t)((char *)block + size + BLOCK_HEADER_SIZE); 
 	set_new_block(new_block, block->size - size - BLOCK_HEADER_SIZE);
 	block->size = size;

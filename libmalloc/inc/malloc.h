@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 13:44:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 14:11:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,22 @@
 typedef struct s_block	*t_block;
 
 struct					s_block {
-	// size of content
-	size_t	size;
+	size_t	size; // excludes header size
 	t_block prev;
 	t_block next;
 	int		free;
 	int		content;
-	// char	tab[0]; // content ptr. or tab[1] to have pointer and space for one byte.
-	// char	content; // content ptr // leave at end
 };
 
-// region allocated by mmap
 typedef struct s_region	*t_region;
 
 struct					s_region {
-	// total allocated size
-	size_t 			size;
-	// pointer to next region
+	size_t 			size; // includes header size
 	t_region		next;
-	// pointer to prev region
 	t_region		prev;
-	// pointer to last block
 	t_block			last_block;
 	t_block			after_last_block;
-	// location of first block
-	size_t				content;
+	size_t			content;
 };
 
 typedef struct	s_lists
@@ -74,10 +65,10 @@ t_lists			g_lists;
 void		free(void *ptr) EXPORT;
 void		*malloc(size_t size) EXPORT;
 void		*realloc(void *ptr, size_t size) EXPORT;
-void		show_alloc_mem() EXPORT;
+void		show_alloc_mem(void) EXPORT;
 
 // global
-void		init_lists();
+void		init_lists(void);
 
 // region
 t_region	get_region_head(size_t size);

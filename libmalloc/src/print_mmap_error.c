@@ -6,12 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 11:21:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/21 11:23:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/23 13:58:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	print_mmap_error(void) {
+void	print_mmap_error(void)
+{
 	ft_putstr("*** error: can't allocate region\n");
 }
