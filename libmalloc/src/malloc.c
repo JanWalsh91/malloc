@@ -6,18 +6,24 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 13:53:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 15:17:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
 void		*malloc(size_t size)
+// void		*malloc()
 {
-	printf("malloc %lu bytes\n", size);
+	// printf("malloc %lu bytes\n", size);
+	// ft_putstr("malloc: size: ");
+	// ft_putnbr(size);
+	// ft_putstr("\n");
+	// return 0; // page reclaims: + 2 
 	t_block		block;
 	t_region	region;
 
+	// return 0;
 	if (size <= 0 ||
 		size >= SIZE_MAX - (BLOCK_HEADER_SIZE + REGION_HEADER_SIZE))
 		return (NULL);
@@ -25,18 +31,33 @@ void		*malloc(size_t size)
 	region = NULL;
 	init_lists();
 	size = align4(size);
+	// return 0; // page reclaims: + 2 
 	region = get_region_head(size);
+	// return 0; // page reclaims: + 12
+	// printf("region: %p\n", region);
 	if (!region)
 		return (NULL);
-	block = find_block_at_end_of_region(region, size);
-	if (block)
-		return (get_block_content(block));
+
 	block = find_block_in_freed_space(region, size);
-	if (block)
+	if (block) {
+		// putbase((size_t)get_block_content(block), 16);
+		// ft_putstr("\n");
 		return (get_block_content(block));
+	}
+	block = find_block_at_end_of_region(region, size);
+	if (block) {
+		// putbase((size_t)get_block_content(block), 16);
+		// ft_putstr("\n");
+		return (get_block_content(block));
+	}
+
+	
 	block = get_block_from_new_region(region, size);
-	if (block)
+	if (block) {
+		// putbase((size_t)get_block_content(block), 16);
+		// ft_putstr("\n");
 		return (get_block_content(block));
+	}
 	return (NULL);
 }
 
@@ -50,5 +71,7 @@ void		init_lists(void)
 		g_lists.names[0] = "TINY";
 		g_lists.names[1] = "SMALL";
 		g_lists.names[2] = "LARGE";
+		// mmap_calls = 0;
+		// munmap_calls = 0;
 	}
 }

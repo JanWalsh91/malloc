@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test1.c                                            :+:      :+:    :+:   */
+/*   test13.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/19 13:36:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 15:23:26 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/06/23 15:16:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-// #include "malloc.h"
 
-int main() 
-{ 
-	int i; 
-	char *addr; 
-	(void)addr;
-	i = 0; 
-	while (i < 1024)
-	{ 
-		addr = (char*)malloc(1024);
-		addr[0] = 42; 
-		
-		i++; 
-	}
-	// show_alloc_mem();
-	return (0); 
-} 
+#include "malloc.h"
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+
+int main()
+{
+	void *p;
+	// p = malloc(4000);
+	p = NULL;
+	p = malloc(500);
+	// p++;
+	show_alloc_mem();
+	p = realloc(p, 400);
+	*((int*)p) = 40;
+	show_alloc_mem();
+	printf("errno: %d\n", errno);
+	printf("int: %d\n", *(int*)p);
+	printf("address: %p\n", p);
+	free(p);
+	return (0);
+}

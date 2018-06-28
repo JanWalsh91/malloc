@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:22:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 15:17:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void		free(void *ptr)
 {
-	printf("free: %p\n", ptr);
+	// printf("free: %p\n", ptr);
+	// ft_putstr("free: \n");
+	// putbase((size_t)ptr, 16);
+	// ft_putchar('\n');
 	t_region	region;
 	t_block		block;
 
@@ -51,7 +54,8 @@ t_region	get_region_containing_pointer(void *ptr)
 		if (lists[i])
 		{
 			region = lists[i];
-			while (region) {
+			while (region)
+			{
 				if ((size_t)region < (size_t)ptr &&
 					(size_t)ptr < (size_t)((char *)region + region->size))
 					return (region);
@@ -96,7 +100,7 @@ void	defragment(t_region region, t_block block)
 
 void	merge(t_region region, t_block block1, t_block block2)
 {
-	printf("merging %p and %p\n", &block1->content, &block2->content);
+	// printf("merging %p and %p\n", &block1->content, &block2->content);
 	t_block next;
 
 	next = block2->next;

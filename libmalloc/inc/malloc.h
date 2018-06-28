@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:18:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 15:01:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@
 # define BLOCK_HEADER_SIZE (sizeof(struct s_block) - sizeof(int))
 # define REGION_HEADER_SIZE (sizeof(struct s_region) - sizeof(size_t))
 # define align4(x) (((((x)-1)>>2)<<2)+4)
-# define TINY_LIMIT (size_t)getpagesize()
+# define TINY_LIMIT ((size_t)getpagesize() / 4)
 # define SMALL_LIMIT (TINY_LIMIT * TINY_LIMIT)
 # define TINY_MIN_MAP_SIZE (TINY_LIMIT * 200)
+// # define TINY_MIN_MAP_SIZE (TINY_LIMIT)
 # define SMALL_MIN_MAP_SIZE (SMALL_LIMIT * 100)
 
 // block for a single malloc allocation
 typedef struct s_block	*t_block;
+
+// int mmap_calls;
+// int munmap_calls;
 
 struct					s_block {
 	size_t	size; // excludes header size
@@ -84,6 +88,8 @@ void		link_regions(t_region prev, t_region current);
 int			region_is_free(t_region region);
 void		try_to_unmap_regions(t_region region);
 void		unmap_region(t_region region);
+void		unmap_all_regions(t_region region);
+void		unmap_regions_recursively(t_region region);
 size_t		get_region_min_map_size(size_t size);
 
 // block
@@ -93,11 +99,11 @@ void		link_blocks(t_block prev, t_block current);
 void		unset_block(t_region region, t_block block);
 
 // print
-void		print_region_list(t_region region, int i);
-void		print_block(t_block block);
+void		print_region_list(t_region region, int i, size_t *total_size);
+void		print_block(t_block block, size_t *total_size);
 
 // helper functions
-void		putbase(size_t n, size_t base);
+void		putbase(size_t n, size_t base) EXPORT;
 void		print_mmap_error(void);
 void		print_free_error(void *ptr);
 

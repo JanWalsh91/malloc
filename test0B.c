@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test1.c                                            :+:      :+:    :+:   */
+/*   test0B.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 13:36:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 15:23:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 13:55:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+
 // #include "malloc.h"
+#include <stdlib.h>
 
 int main() 
 { 
@@ -19,13 +20,13 @@ int main()
 	char *addr; 
 	(void)addr;
 	i = 0; 
-	while (i < 1024)
+	while (i < 1024) 
 	{ 
-		addr = (char*)malloc(1024);
-		addr[0] = 42; 
+		addr = (char*)malloc(0);
+
 		
 		i++; 
-	}
-	// show_alloc_mem();
+	} 
+	
 	return (0); 
 } 

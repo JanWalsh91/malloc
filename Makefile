@@ -6,25 +6,25 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 13:28:27 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/23 14:22:34 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/28 15:56:15 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := test
+NAME := test5
 
 LIB_NAME := ft_malloc
 LIB_PATH := libmalloc/
 LIB_INC := $(LIB_PATH)inc
 
-SRC := test11.c
+SRC := test5.c
 
-CFLAGS := -Wall -Werror -Wextra
+# CFLAGS := -Wall -Werror -Wextra
 
 all: $(NAME)
 
 $(NAME):
 	@make -C $(LIB_PATH)
-	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) -I$(LIB_INC) -L$(LIB_PATH) -l$(LIB_NAME) 
+	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) -I$(LIB_INC) -L$(LIB_PATH) -l$(LIB_NAME)
 	# @$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 	@echo "test compiled"
 

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:10:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 15:02:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 t_region	*get_first_region(size_t size) {
 	// printf("get_first_region size: %lu\n", size);
+	// return 0;
 	if (size <= TINY_LIMIT)
 		return &g_lists.tiny;
 	if (size <= SMALL_LIMIT)
@@ -57,6 +58,7 @@ t_region	get_new_region(size_t size) {
 	// printf("final_size: %lu\n", final_size);
 	region = mmap(0, final_size, PROT_READ | PROT_WRITE,
 		MAP_ANON | MAP_PRIVATE, -1, 0);
+	// ++mmap_calls;
 	if (region == MAP_FAILED)
 	{
 		print_mmap_error();
@@ -82,11 +84,14 @@ int		region_has_space(t_region region, size_t size)
 // get head of correct region (tiny small large) and creates a new region if none exists
 t_region	get_region_head(size_t size)
 {
-	// printf("get_region. size: %lu\n", size);
+	// printf("get_region_head. size: %lu\n", size);
+	// return 0; // page reclaims: + 3
 	t_region	*head;
 	
 	head = NULL;
+	// return 0; // page reclaims: + 3
 	head = get_first_region(size);
+	// return 0; // page reclaims: + 5
 	if (!*head)
 		*head = get_new_region(size);
 	return (*head);
@@ -198,33 +203,75 @@ int			region_is_free(t_region region)
 void		try_to_unmap_regions(t_region region)
 {
 	int	nb_free_regions;
+	int	nb_used_regions;
 
 	nb_free_regions = 0;
+	nb_used_regions = 0;
 	while (region)
 	{
 		if (region_is_free(region))
 		{
 			++nb_free_regions;
+			// if (nb_free_regions >= 2 && nb_used_regions > 0)
 			if (nb_free_regions >= 2)
 			{
 				unmap_region(region);
 				return ;
 			}
 		}
-		region = region->next;
+		else
+			++nb_used_regions;
+		if (region->next)
+			region = region->next;
+		else
+			break ;
 	}
+	// if (region && nb_free_regions > 0 && nb_used_regions == 0)
+	// 	unmap_all_regions(region);
+}
+
+void	unmap_all_regions(t_region region)
+{
+	// printf("unmap_all_regions\n");
+
+	// printf("tiny: %p, small: %p, large: %p\n", g_lists.tiny, g_lists.small, g_lists.large);
+	while (region && region->prev)
+		region = region->prev;
+	// printf("first region: %p\n", region);
+	unmap_regions_recursively(region);
+	if (region == g_lists.tiny)
+		g_lists.tiny = NULL;
+	else if (region == g_lists.small)
+		g_lists.small = NULL;
+	else if (region == g_lists.large)
+		g_lists.large = NULL;
+	// printf("tiny: %p, small: %p, large: %p\n", g_lists.tiny, g_lists.small, g_lists.large);
+}
+
+void	unmap_regions_recursively(t_region region)
+{
+	// printf("unmap_regions_recursively: %p\n", region);
+	if (region && region->next)
+		unmap_regions_recursively(region->next);
+	unmap_region(region);
 }
 
 void		unmap_region(t_region region)
 {
-	// printf("unmap region\n");
+	// printf("unmap region %p\n", region);
 	t_region	prev;
 	t_region	next;
 
-	if (!region->prev)
-		return ;
 	prev = region->prev;
+	// printf("check1\n");
 	next = region->next;
+	// printf("check2\n");
 	munmap(region, region->size);
-	prev->next = next;
+	// ++munmap_calls;
+	// printf("check3\n");
+	if (prev) {
+		// printf("check3\n");
+		prev->next = next;
+	}
+	// printf("end unmap region\n");
 }

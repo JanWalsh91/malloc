@@ -6,20 +6,22 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:33 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:07:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 15:17:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
 void		*realloc(void *ptr, size_t size) {
-	printf("realloc %p, size: %lu\n", ptr, size);
+	// printf("realloc %p, size: %lu\n", ptr, size);
+	// ft_putstr("realloc\n");
 	t_region	region;
 	t_block		block;
 	
-	if (size <= 0) {
+	if (!ptr)
+		return (malloc(size));
+	if (size <= 0)
 		return (NULL);
-	}
 	init_lists();
 	size = align4(size);
 	
@@ -45,11 +47,13 @@ void		*realloc(void *ptr, size_t size) {
 			return (ptr);
 		}
 	}
-	else {
-		if (!block->next) {
-			if (get_size_of_free_space_at_end_of_region(region) + block->size >= size) {
-				block->size = size;
-			}
+	else
+	{
+		if (!block->next && get_size_of_free_space_at_end_of_region(region) +
+			block->size >= size)
+		{
+			block->size = size;
+			return (get_block_content(block));
 		}
 		free(ptr);
 		void *new_ptr = malloc(size);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 14:06:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 14:23:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 
 void	show_alloc_mem()
 {
+	// printf("show_alloc_mem\n");
 	t_region	lists[3];
 	int			i;
+	size_t		total_size;
 
 	lists[0] = g_lists.tiny;
 	lists[1] = g_lists.small;
 	lists[2] = g_lists.large;
-	g_lists.total_size = 0;
+	total_size = 0;
 	ft_putchar('\n');
 	i = -1;
 	while (++i < 3)
 		if (lists[i])
-			print_region_list(lists[i], i);
+			print_region_list(lists[i], i, &total_size);
 	ft_putstr("Total : ");
-	ft_putnbr(g_lists.total_size);
+	ft_putnbr(total_size);
 	ft_putstr(" octets\n");
 	ft_putchar('\n');
+	// printf("mmap calls: %d\n", mmap_calls);
+	// printf("munmap calls: %d\n", munmap_calls);
 }
 
 
-void	print_region_list(t_region region, int i)
+void	print_region_list(t_region region, int i, size_t *total_size)
 {
 	t_block block;
 	
@@ -44,18 +48,18 @@ void	print_region_list(t_region region, int i)
 	ft_putchar('\n');
 	while (region)
 	{
-		printf("Mapping: %p : size %lu\n", region, region->size);
+		// printf("Mapping: %p : size %lu\n", region, region->size);
 		block = (t_block)&region->content;
 		while (block != NULL)
 		{
-			print_block(block);
+			print_block(block, total_size);
 			block = block->next;
 		}
 		region = region->next;
 	}
 }
 
-void	print_block(t_block block)
+void	print_block(t_block block, size_t *total_size)
 {
 	ft_putstr("0x");
 	putbase((size_t)&block->content, 16);
@@ -68,5 +72,6 @@ void	print_block(t_block block)
 	if (block->free)
 		ft_putstr(" (free)");
 	ft_putchar('\n');
-	g_lists.total_size += block->size;
+	if (!block->free)
+		*total_size += block->size;
 }

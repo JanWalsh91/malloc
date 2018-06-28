@@ -6,27 +6,31 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 13:36:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/19 15:00:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/28 15:49:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#define M (1024 * 1024) 
 
-int	main(void)
-{
-	int i;
-	char *addr;
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-	i = 0;
-	while (i < 100)
-	{
-		addr = (char*)malloc(1024);
-		addr[0] = 42;
-		show_alloc_mem();
-		free(addr);
-		show_alloc_mem();
-		i++;
-	}
-	show_alloc_mem();	
-	return (0);
-}
+void print(char *s) 
+{ 
+	write(1, s, strlen(s)); 
+} 
+
+int main() 
+{ 
+	char *addr1; 
+	char *addr3; 
+
+	addr1 = (char*)malloc(16*M); 
+	strcpy(addr1, "Bonjours\n"); 
+	print(addr1); 
+	addr3 = (char*)realloc(addr1, 128*M); 
+	addr3[127*M] = 42; 
+	print(addr3); 
+	return (0); 
+} 
