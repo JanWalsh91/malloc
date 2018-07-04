@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 15:01:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 09:52:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <errno.h> 
+# include <errno.h>
+# include <pthread.h>
 # include "../libft/inc/libft.h"
 
 # define EXPORT __attribute__ ((visibility("default")))
@@ -27,14 +28,9 @@
 # define TINY_LIMIT ((size_t)getpagesize() / 4)
 # define SMALL_LIMIT (TINY_LIMIT * TINY_LIMIT)
 # define TINY_MIN_MAP_SIZE (TINY_LIMIT * 200)
-// # define TINY_MIN_MAP_SIZE (TINY_LIMIT)
 # define SMALL_MIN_MAP_SIZE (SMALL_LIMIT * 100)
 
-// block for a single malloc allocation
 typedef struct s_block	*t_block;
-
-// int mmap_calls;
-// int munmap_calls;
 
 struct					s_block {
 	size_t	size; // excludes header size
@@ -66,10 +62,19 @@ typedef struct	s_lists
 
 t_lists			g_lists;
 
+pthread_mutex_t	mutex;
+// pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
+// static pthread_mutex_t	mutex;
+
 void		free(void *ptr) EXPORT;
 void		*malloc(size_t size) EXPORT;
 void		*realloc(void *ptr, size_t size) EXPORT;
 void		show_alloc_mem(void) EXPORT;
+
+void		*malloc_thread_unsafe(size_t size);
+void		free_thread_unsafe(void *ptr);
+void		*realloc_thread_unsafe(void *ptr, size_t size);
+void		show_alloc_mem_thread_unsafe(void);
 
 // global
 void		init_lists(void);
@@ -97,6 +102,8 @@ void		set_new_block(void *ptr, size_t size);
 void		*get_block_content(t_block block);
 void		link_blocks(t_block prev, t_block current);
 void		unset_block(t_region region, t_block block);
+int			can_split_block(t_block block, size_t size);
+void		split_block(t_region region, t_block block, size_t size);
 
 // print
 void		print_region_list(t_region region, int i, size_t *total_size);
@@ -106,6 +113,7 @@ void		print_block(t_block block, size_t *total_size);
 void		putbase(size_t n, size_t base) EXPORT;
 void		print_mmap_error(void);
 void		print_free_error(void *ptr);
+void		print_thread_pid(void);
 
 // free
 t_region	get_region_containing_pointer(void *ptr);
@@ -114,6 +122,5 @@ void		defragment(t_region region, t_block block);
 void		merge(t_region region, t_block block1, t_block block2);
 
 // realloc
-void		split_block(t_region region, t_block block, size_t size);
 
 #endif

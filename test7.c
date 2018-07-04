@@ -6,30 +6,40 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/20 15:32:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 10:30:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 #include "malloc.h"
+
+void print_mem_color()
+{
+	write(1, "\x1b[31m", 5);
+	show_alloc_mem();
+	write(1, "\x1b[0m", 4);
+}
 
 int main()
 {
-	void *p[20];
+	void*	ptr = NULL;
+	void*	ptr2 = NULL;
+	void*	ptr3 = NULL;
 	
-	int y = 10;
+	ptr = malloc(200);
+	print_mem_color();
 
-	int i = 0;
-	while (i < y) {
-		p[i] = malloc(500);
-		++i;
-	}
-	i = 0;
-	while (i < y) {
-		free(p[i]);
-		show_alloc_mem();
-		++i;
-	}
-	
-	show_alloc_mem();
+	free(ptr);
+	print_mem_color();
+
+	ptr2 = malloc(400);
+	print_mem_color();
+
+	ptr2 = realloc(ptr2, 500); 
+	print_mem_color();
+
 	return (0);
 }

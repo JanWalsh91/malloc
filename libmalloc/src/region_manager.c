@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 15:02:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 10:42:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_region	get_region_head(size_t size)
 }
 
 t_block		find_block_at_end_of_region(t_region region, size_t size) {
-	// printf("find_block_at_end_of_region\n");
+	ft_putstr("find_block_at_end_of_region\n");
 	t_block	block;
 
 	block = NULL;
@@ -110,6 +110,7 @@ t_block		find_block_at_end_of_region(t_region region, size_t size) {
 			// printf("region->last_block: %p, next: %p\n", region->last_block, region->last_block->next);
 			block = region->after_last_block;
 			// printf("after last block: %p\n", block);
+			// Good use of set_new_block
 			set_new_block(block, size);
 			link_blocks(region->last_block, block);
 			update_last_block_info(region, block);
@@ -123,8 +124,10 @@ t_block		find_block_at_end_of_region(t_region region, size_t size) {
 }
 
 t_block		find_block_in_freed_space(t_region region, size_t size) {
-	// printf("find_block_in_freed_space for size %lu\n", size);
+	ft_putstr("find_block_in_freed_space\n");
 	t_block		block;
+	// t_block		next;
+	// t_block		prev;
 
 	block = NULL;
 	while (region)
@@ -134,13 +137,27 @@ t_block		find_block_in_freed_space(t_region region, size_t size) {
 		while (block)
 		{
 			// printf("checking block: %p, free: %s, size: %lu\n", block, block->free ? "yes" : "no", block->size);
-			if (block->free && block->size >= size) {
-				// printf("Found block\n");
-				set_new_block(block, size);
-				//update end block
-				update_last_block_info(region, block);
+			// if found a freed block
+				// with a size that can actually fit the size of the new block, including size and header
+			if (block->free && can_split_block(block, size))
+			{
+				block->free = 0;
+				split_block(region, block, size);
 				return (block);
 			}
+			// if (block->free && block->size >= size + BLOCK_HEADER_SIZE)
+			// {
+			// 	// printf("Found block\n");
+			// 	prev = block->prev;
+			// 	next = block->next;
+			// 	block->size = size;
+			// 	link_blocks(prev, block);
+			// 	link_blocks(block, next);
+			// 	//update end block
+			// 	if (!next)
+			// 		update_last_block_info(region, block);
+			// 	return (block);
+			// }
 			block = block->next;
 		}		
 		region = region->next;
@@ -151,6 +168,7 @@ t_block		find_block_in_freed_space(t_region region, size_t size) {
 
 t_block		get_block_from_new_region(t_region region, size_t size)
 {
+	ft_putstr("get_block_from_new_region\n");
 	// printf("get_block_from_new_region\n");
 	t_region	new_region;
 
@@ -175,8 +193,15 @@ size_t		get_size_of_free_space_at_end_of_region(t_region region)
 
 void		update_last_block_info(t_region region, t_block block)
 {
+	ft_putstr("update_last_block_info: current last: ");
+	putbase((size_t)region->last_block, 16);
+	ft_putstr(", new last: ");
+	putbase((size_t)block, 16);
+	ft_putstr("\n");
+	if (block->next)
+		return ;
 	region->last_block = block;
-	region->after_last_block = (t_block)((char *)block + block->size + BLOCK_HEADER_SIZE);
+	region->after_last_block = (t_block)(((char *)block) + block->size + BLOCK_HEADER_SIZE);
 }
 
 void		link_regions(t_region prev, t_region current)
@@ -230,7 +255,7 @@ void		try_to_unmap_regions(t_region region)
 	// 	unmap_all_regions(region);
 }
 
-void	unmap_all_regions(t_region region)
+void		unmap_all_regions(t_region region)
 {
 	// printf("unmap_all_regions\n");
 
@@ -248,7 +273,7 @@ void	unmap_all_regions(t_region region)
 	// printf("tiny: %p, small: %p, large: %p\n", g_lists.tiny, g_lists.small, g_lists.large);
 }
 
-void	unmap_regions_recursively(t_region region)
+void		unmap_regions_recursively(t_region region)
 {
 	// printf("unmap_regions_recursively: %p\n", region);
 	if (region && region->next)

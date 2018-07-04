@@ -6,11 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 13:36:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 15:49:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/06/29 17:11:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define M (1024 * 1024) 
+// #define M (1024 * 1024) 
+#define M (16) 
 
 #include <stdlib.h>
 #include <string.h>
@@ -31,6 +32,6 @@ int main()
 	print(addr1); 
 	addr3 = (char*)realloc(addr1, 128*M); 
 	addr3[127*M] = 42; 
-	print(addr3); 
+	print(addr3);
 	return (0); 
 } 

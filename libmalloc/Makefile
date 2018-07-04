@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/28 15:28:26 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/06/28 16:55:57 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ CFLAGS := -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -I$(LIBFT_INC_PATH) -L$(LIBFT_PATH) -lft -shared $^ -o $(NAME)
+	@$(CC) $(CFLAGS) -I$(LIBFT_INC_PATH) -L$(LIBFT_PATH) -lft -shared $^ -o $(NAME) -lpthread
 	@ln -s $(NAME) $(SYM_NAME)
 	@echo libft_malloc compiled and linked
 

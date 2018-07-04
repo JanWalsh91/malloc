@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/23 13:55:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 11:01:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,19 @@ void	 set_new_block(void *ptr, size_t size)
 
 void	*get_block_content(t_block block)
 {
-	if (!block->free)
+	if (block/* && !block->free */)
 		return ((void *)&block->content);
 	else
-		return NULL;
+		return (NULL);
 }
 
 void	link_blocks(t_block prev, t_block current)
 {
+	ft_putstr("link blocks ");
+	putbase((size_t)get_block_content(prev), 16);
+	ft_putstr(" and ");
+	putbase((size_t)get_block_content(current), 16);
+	ft_putchar('\n');
 	if (prev)
 		prev->next = current;
 	if (current)
@@ -42,10 +47,39 @@ void	link_blocks(t_block prev, t_block current)
 
 void	unset_block(t_region region, t_block block)
 {
+	ft_putstr("unset block\n");
+	putbase((size_t)get_block_content(block), 16);
+	ft_putstr("\n");
 	if (!block->prev)
 		return ;
 
 	block->prev->next = NULL;
-	region->last_block = block->prev;
-	region->after_last_block = block;
+	update_last_block_info(region, block->prev);
+	// region->last_block = block->prev;
+	// region->after_last_block = block;
+}
+
+// block to try to split
+// size of other block (excluding header)
+int		can_split_block(t_block block, size_t size)
+{
+	return ((size + BLOCK_HEADER_SIZE + 4 <= block->size) ? 1 : 0);
+}
+
+void	split_block(t_region region, t_block block, size_t size)
+{
+	ft_putstr("split_block\n");
+	t_block	next_block;
+	t_block	new_block;
+
+	new_block = (t_block)(size_t)((char *)block + size + BLOCK_HEADER_SIZE);
+	new_block->size = block->size - size - BLOCK_HEADER_SIZE;
+	block->size = size;
+	next_block = block->next;
+	link_blocks(block, new_block);
+	link_blocks(new_block, next_block);
+	new_block->free = 1;
+	defragment(region, new_block);
+	if (!new_block->next)
+		update_last_block_info(region, new_block);
 }

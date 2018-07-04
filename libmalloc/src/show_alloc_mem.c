@@ -6,13 +6,21 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 14:23:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 11:02:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
 void	show_alloc_mem()
+{
+	pthread_mutex_lock(&mutex);
+	init_lists();
+	show_alloc_mem_thread_unsafe();
+	pthread_mutex_unlock(&mutex);
+}
+
+void	show_alloc_mem_thread_unsafe()
 {
 	// printf("show_alloc_mem\n");
 	t_region	lists[3];
@@ -72,6 +80,13 @@ void	print_block(t_block block, size_t *total_size)
 	if (block->free)
 		ft_putstr(" (free)");
 	ft_putchar('\n');
+
+	// ft_putstr("\tprev: ");
+	// putbase((size_t)get_block_content(block->prev), 16);
+	// ft_putstr("\tnext: ");
+	// putbase((size_t)get_block_content(block->next), 16);
+	// ft_putstr("\n");
+	
 	if (!block->free)
 		*total_size += block->size;
 }
