@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:29:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 13:55:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 16:51:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	scribble(t_block block, int value)
 {
-	if (getenv("MALLOC_SCRIBBLE"))
-		if (get_block_content(block))
-			ft_memset(get_block_content(block), value, block->size);
+	if (get_block_content(block))
+		ft_memset(get_block_content(block), value, block->size);
 }

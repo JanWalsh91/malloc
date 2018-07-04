@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 13:20:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 16:52:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ void		*malloc(size_t size)
 	ft_putnbr(size);
 	ft_putchar('\n');
 	void	*ptr;
+	
+	show_alloc_mem_thread_unsafe();
 
 	ptr = NULL;
 	pthread_mutex_lock(&mutex);
 	ft_putstr("malloc: lock mutex\n");
 	init_lists();
 	ptr = malloc_thread_unsafe(size);
-	malloc_log();
 	ft_putstr("malloc: unlock mutex\n");
 	pthread_mutex_unlock(&mutex);
 	return (ptr);
@@ -69,7 +70,7 @@ void		*malloc_thread_unsafe(size_t size)
 		return (NULL);
 	}
 	ft_putstr("malloc_thread_unsafe END\n");
-	scribble(block, 0xA);
+	// scribble(block, 0xA);
 	return (get_block_content(block));
 }
 

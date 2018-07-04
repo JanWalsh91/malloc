@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 13:42:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 16:53:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void		split_block(t_region region, t_block block, size_t size);
 // print
 void		print_region_list(t_region region, int i, size_t *total_size);
 void		print_block(t_block block, size_t *total_size);
-void		print_timestamp();
 
 // helper functions
 void		putbase(size_t n, size_t base) EXPORT;
@@ -129,8 +128,5 @@ void		merge(t_region region, t_block block1, t_block block2);
 
 // scribble
 void		scribble(t_block block, int value);
-
-// log
-void		malloc_log();
 
 #endif
