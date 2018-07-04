@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/04 16:52:29 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/04 17:45:14 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,11 @@ SRCS := malloc \
 		realloc \
 		free \
 		region_manager \
+		region_manager2 \
+		region_manager3 \
+		region_manager4 \
 		block_manager \
+		block_manager2 \
 		show_alloc_mem \
 		putbase \
 		errors \

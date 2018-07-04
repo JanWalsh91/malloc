@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putbase.c                                          :+:      :+:    :+:   */
+/*   test14.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/16 11:09:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:48:09 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/04 17:19:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "malloc.h"
 
-void	putbase(size_t n, size_t base)
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+
+int main()
 {
-	if (n > base - 1)
+	int i = 0;
+	void *ptr;
+
+	while (i < 50)
 	{
-		putbase(n / base, base);
-		putbase(n % base, base);
+		ptr = malloc(10000);
+		ptr = realloc(ptr, 50000);
+		show_alloc_mem();
+		++i;
 	}
-	else
-	{
-		if (n < 10)
-			ft_putchar(n + '0');
-		else
-			ft_putchar(n + 'A' - 10);
-	}
+	return (0);
 }

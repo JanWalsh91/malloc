@@ -6,21 +6,21 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 16:53:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 17:45:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	show_alloc_mem()
+void	show_alloc_mem(void)
 {
-	pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(&g_mutex);
 	init_lists();
 	show_alloc_mem_thread_unsafe();
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&g_mutex);
 }
 
-void	show_alloc_mem_thread_unsafe()
+void	show_alloc_mem_thread_unsafe(void)
 {
 	t_region	lists[3];
 	int			i;
@@ -41,15 +41,14 @@ void	show_alloc_mem_thread_unsafe()
 	ft_putchar('\n');
 }
 
-
 void	print_region_list(t_region region, int i, size_t *total_size)
 {
 	t_block block;
-	
+
 	ft_putstr(g_lists.names[i]);
-	// ft_putstr(" : 0x");
-	// putbase((size_t)&region->content, 16);
-	// putbase((size_t)(region), 16);
+	ft_putstr(" : 0x");
+	putbase((size_t)&region->content, 16);
+	putbase((size_t)(region), 16);
 	ft_putchar('\n');
 	while (region)
 	{

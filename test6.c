@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 11:45:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 17:41:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,11 @@
 
 void *x_malloc(void *ptr)
 {
-	// printf("x_malloc\n");
 	void *p = NULL;
 	(void)ptr;
-	write(1, "MALLOC:\n", 8);
+	
 	p = malloc(500);
-	write(1, "REALLOC:\n", 9);
-	// sleep(1);
-	p = realloc(p, 600);
-	free(p);
+	p = realloc(p, 100);
 	show_alloc_mem();
 	return NULL;
 }
@@ -35,6 +31,7 @@ int main()
 {
 	pthread_t inc_x_thread[50];
 	int y = 5;
+	
 	for (int i = 0; i < y; ++i) {
 		if (pthread_create(&inc_x_thread[i], NULL, x_malloc, NULL))
 		{
@@ -51,6 +48,7 @@ int main()
 			return 2;
 		}
 	}
+	
 	show_alloc_mem();
 	return (0);
 }

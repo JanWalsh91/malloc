@@ -6,41 +6,29 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 16:52:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 17:54:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include <sys/types.h>
 
-pthread_mutex_t mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t g_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
 void		*malloc(size_t size)
 {
-	ft_putstr("MALLOC: size: ");
-	ft_putnbr(size);
-	ft_putchar('\n');
 	void	*ptr;
-	
-	show_alloc_mem_thread_unsafe();
 
 	ptr = NULL;
-	pthread_mutex_lock(&mutex);
-	ft_putstr("malloc: lock mutex\n");
+	pthread_mutex_lock(&g_mutex);
 	init_lists();
 	ptr = malloc_thread_unsafe(size);
-	ft_putstr("malloc: unlock mutex\n");
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&g_mutex);
 	return (ptr);
 }
 
 void		*malloc_thread_unsafe(size_t size)
 {
-	ft_putstr("malloc_thread_unsafe START\n");
-	// printf("malloc %lu bytes\n", size);
-	// ft_putstr("malloc: size: ");
-	// ft_putnbr(size);
-	// ft_putstr("\n");
 	t_block		block;
 	t_region	region;
 
@@ -49,28 +37,18 @@ void		*malloc_thread_unsafe(size_t size)
 		return (NULL);
 	block = NULL;
 	region = NULL;
-	size = align4(size);
+	size = ALIGN4(size);
 	region = get_region_head(size);
 	if (!region)
-	{
 		return (NULL);
-	}
-	// ft_putstr("check1\n");
 	block = find_block_in_freed_space(region, size);
-	// ft_putstr("check2\n");
 	if (!block)
 		block = find_block_at_end_of_region(region, size);
-	// ft_putstr("check3\n");
 	if (!block)
 		block = get_block_from_new_region(region, size);
-	// ft_putstr("check4\n");
 	if (!block)
-	{
-		// ft_putstr("check5\n");
 		return (NULL);
-	}
-	ft_putstr("malloc_thread_unsafe END\n");
-	// scribble(block, 0xA);
+	scribble(block, 0xA);
 	return (get_block_content(block));
 }
 
@@ -84,6 +62,5 @@ void		init_lists(void)
 		g_lists.names[0] = "TINY";
 		g_lists.names[1] = "SMALL";
 		g_lists.names[2] = "LARGE";
-		g_fd = 1;
 	}
 }
