@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 12:32:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 13:42:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <unistd.h>
 # include <errno.h>
 # include <pthread.h>
+# include <fcntl.h>
+# include <time.h>
+# include <sys/time.h>
 # include "../libft/inc/libft.h"
 
 # define EXPORT __attribute__ ((visibility("default")))
@@ -63,6 +66,8 @@ t_lists			g_lists;
 
 pthread_mutex_t	mutex;
 
+int				g_fd;
+
 void		free(void *ptr) EXPORT;
 void		*malloc(size_t size) EXPORT;
 void		*realloc(void *ptr, size_t size) EXPORT;
@@ -105,9 +110,11 @@ void		split_block(t_region region, t_block block, size_t size);
 // print
 void		print_region_list(t_region region, int i, size_t *total_size);
 void		print_block(t_block block, size_t *total_size);
+void		print_timestamp();
 
 // helper functions
 void		putbase(size_t n, size_t base) EXPORT;
+void		putbase_fd(size_t n, size_t base, int fd);
 void		print_mmap_error(void);
 void		print_free_error(void *ptr);
 
@@ -122,5 +129,8 @@ void		merge(t_region region, t_block block1, t_block block2);
 
 // scribble
 void		scribble(t_block block, int value);
+
+// log
+void		malloc_log();
 
 #endif

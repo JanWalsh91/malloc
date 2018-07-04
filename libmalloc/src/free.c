@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 12:33:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 13:20:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		free(void *ptr)
 	pthread_mutex_lock(&mutex);
 	init_lists();
 	free_thread_unsafe(ptr);
+	malloc_log();
 	pthread_mutex_unlock(&mutex);
 }
 

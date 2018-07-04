@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:33 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 12:37:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 13:20:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		*realloc(void *ptr, size_t size)
 	ft_putstr("realloc: lock mutex\n");
 	init_lists();
 	ret = realloc_thread_unsafe(ptr, size);
+	malloc_log();
 	ft_putstr("realloc: unlock mutex\n");
 	pthread_mutex_unlock(&mutex);
 	return (ret);

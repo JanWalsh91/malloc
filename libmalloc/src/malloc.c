@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 12:33:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 13:20:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		*malloc(size_t size)
 	ft_putstr("malloc: lock mutex\n");
 	init_lists();
 	ptr = malloc_thread_unsafe(size);
+	malloc_log();
 	ft_putstr("malloc: unlock mutex\n");
 	pthread_mutex_unlock(&mutex);
 	return (ptr);
@@ -82,7 +83,6 @@ void		init_lists(void)
 		g_lists.names[0] = "TINY";
 		g_lists.names[1] = "SMALL";
 		g_lists.names[2] = "LARGE";
-		// mmap_calls = 0;
-		// munmap_calls = 0;
+		g_fd = 1;
 	}
 }
