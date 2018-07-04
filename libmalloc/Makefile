@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/28 16:55:57 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/04 12:29:39 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS := malloc \
 		block_manager \
 		show_alloc_mem \
 		putbase \
-		errors 
+		errors \
+		scribble
 
 EXT  :=.c
 SRCS := $(addsuffix $(EXT), $(SRCS))

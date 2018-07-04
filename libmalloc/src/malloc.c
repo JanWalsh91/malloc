@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 10:14:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 12:33:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ void		*malloc(size_t size)
 	ptr = NULL;
 	pthread_mutex_lock(&mutex);
 	ft_putstr("malloc: lock mutex\n");
-	print_thread_pid();
 	init_lists();
 	ptr = malloc_thread_unsafe(size);
 	ft_putstr("malloc: unlock mutex\n");
-	print_thread_pid();
 	pthread_mutex_unlock(&mutex);
 	return (ptr);
 }
@@ -37,7 +35,6 @@ void		*malloc(size_t size)
 void		*malloc_thread_unsafe(size_t size)
 {
 	ft_putstr("malloc_thread_unsafe START\n");
-	print_thread_pid();
 	// printf("malloc %lu bytes\n", size);
 	// ft_putstr("malloc: size: ");
 	// ft_putnbr(size);
@@ -71,7 +68,7 @@ void		*malloc_thread_unsafe(size_t size)
 		return (NULL);
 	}
 	ft_putstr("malloc_thread_unsafe END\n");
-	print_thread_pid();
+	scribble(block, 0xA);
 	return (get_block_content(block));
 }
 

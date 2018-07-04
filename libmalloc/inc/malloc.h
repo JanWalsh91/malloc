@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 15:26:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 09:52:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 12:32:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,12 @@ typedef struct	s_lists
 	t_region			tiny;
 	t_region			small;
 	t_region			large;
-	size_t				total_size;
 	const char*			names[3];
 }				t_lists;
 
 t_lists			g_lists;
 
 pthread_mutex_t	mutex;
-// pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
-// static pthread_mutex_t	mutex;
 
 void		free(void *ptr) EXPORT;
 void		*malloc(size_t size) EXPORT;
@@ -113,7 +110,6 @@ void		print_block(t_block block, size_t *total_size);
 void		putbase(size_t n, size_t base) EXPORT;
 void		print_mmap_error(void);
 void		print_free_error(void *ptr);
-void		print_thread_pid(void);
 
 // free
 t_region	get_region_containing_pointer(void *ptr);
@@ -122,5 +118,9 @@ void		defragment(t_region region, t_block block);
 void		merge(t_region region, t_block block1, t_block block2);
 
 // realloc
+
+
+// scribble
+void		scribble(t_block block, int value);
 
 #endif

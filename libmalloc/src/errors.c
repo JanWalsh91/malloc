@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 11:21:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/30 13:59:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 12:19:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,4 @@ void	print_free_error(void *ptr)
 		putbase((size_t)(ptr), 16);
 		ft_putstr(": pointer being freed was not allocated\n");
 	}
-}
-
-void	print_thread_pid(void)
-{
-	// uint64_t tid;
- 	// pthread_threadid_np(NULL, &tid);
-	// ft_putnbr((int)tid);
-	// ft_putchar('\n');
 }

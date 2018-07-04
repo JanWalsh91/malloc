@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 11:31:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 12:33:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void		free(void *ptr)
 void		free_thread_unsafe(void *ptr)
 {
 	// ft_putstr("free_thread_unsafe START\n");
-	print_thread_pid();
 	// ft_putstr("free: ");
 	// putbase((size_t)ptr, 16);
 	// ft_putchar('\n');
@@ -57,9 +56,9 @@ void		free_thread_unsafe(void *ptr)
 	while (region->prev)
 		region = region->prev;
 	try_to_unmap_regions(region);
-	print_thread_pid();
 	ft_putchar('\n');
 	ft_putstr("free_thread_unsafe END\n");
+	scribble(block, 0x5);
 }
 
 t_region	get_region_containing_pointer(void *ptr)

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:33 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 10:31:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 12:37:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,15 @@ void		*realloc(void *ptr, size_t size)
 	ret = NULL;
 	pthread_mutex_lock(&mutex);
 	ft_putstr("realloc: lock mutex\n");
-	print_thread_pid();
 	init_lists();
 	ret = realloc_thread_unsafe(ptr, size);
 	ft_putstr("realloc: unlock mutex\n");
-	print_thread_pid();
 	pthread_mutex_unlock(&mutex);
 	return (ret);
 }
 
 void		*realloc_thread_unsafe(void *ptr, size_t size) {
 	ft_putstr("realloc_thread_unsafe START\n");
-	print_thread_pid();
 	ft_putstr("realloc: address: ");
 	putbase((size_t)ptr, 16);
 	ft_putstr(", size: ");
@@ -43,6 +40,7 @@ void		*realloc_thread_unsafe(void *ptr, size_t size) {
 	ft_putchar('\n');
 	t_region	region;
 	t_block		block;
+	
 	
 	// ft_putstr("check1\n");
 	if (!ptr)
@@ -61,7 +59,6 @@ void		*realloc_thread_unsafe(void *ptr, size_t size) {
 		putbase((size_t)ptr, 16);
 		ft_putchar('\n');
 		ft_putstr("realloc_thread_unsafe END\n");
-		print_thread_pid();
 		return (NULL);
 	}
 	// ft_putstr("check4\n");
@@ -72,7 +69,6 @@ void		*realloc_thread_unsafe(void *ptr, size_t size) {
 	{
 		ft_putstr("realloc: did not find block with pointer\n");
 		ft_putstr("realloc_thread_unsafe END\n");
-		print_thread_pid();
 		return (NULL);
 	}
 	// ft_putstr("check6\n");
@@ -90,7 +86,6 @@ void		*realloc_thread_unsafe(void *ptr, size_t size) {
 		}
 
 		ft_putstr("realloc_thread_unsafe END\n");
-		print_thread_pid();
 
 		return (ptr);
 	}
@@ -102,12 +97,10 @@ void		*realloc_thread_unsafe(void *ptr, size_t size) {
 		block->size >= size)
 	{
 		ft_putstr("realloc: update size cos space at end of region\n");
-		print_thread_pid();
 		block->size = size;
 		update_last_block_info(region, block);
 
 		ft_putstr("realloc_thread_unsafe END\n");
-		print_thread_pid();
 
 		return (get_block_content(block));
 	}
@@ -115,20 +108,28 @@ void		*realloc_thread_unsafe(void *ptr, size_t size) {
 	// return ptr; /////////
 
 	ft_putstr("realloc: free and malloc\n");
-	print_thread_pid();
 
 	show_alloc_mem_thread_unsafe();
 
-	void *new_ptr = malloc_thread_unsafe(size);
+	// if MALLOC_SCRIBBLE is set, unset it during malloc_thread_unsafe and free_thread_unsafe
+	// const	char *scribble = getenv("MALLOC_SCRIBBLE");
+	const char	*scribble;
+	void		*new_ptr;
+	
+	new_ptr = malloc_thread_unsafe(size);
+	scribble = getenv("MALLOC_SCRIBBLE");
+	if (scribble)
+		unsetenv("MALLOC_SCRIBBLE");
 	if (new_ptr)
 		memcpy(new_ptr, ptr, block->size);
 	free_thread_unsafe(ptr);
+	if (scribble)
+		setenv("MALLOC_SCRIBBLE", scribble, 1);
 
 	ft_putstr("realloc: AFTER free and malloc\n");
 	show_alloc_mem_thread_unsafe();
 
 	ft_putstr("realloc_thread_unsafe END\n");
-	print_thread_pid();
 
 	return (new_ptr);
 }
