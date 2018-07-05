@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:36:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:06:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ void		defragment(t_region region, t_block block)
 	if (!block->free)
 		return ;
 	if (block->next && block->next->free)
-		merge(region, block, block->next);
+		merge_blocks(region, block, block->next);
 	if (block->prev && block->prev->free)
 	{
-		merge(region, block->prev, block);
+		merge_blocks(region, block->prev, block);
 		block = block->prev;
 	}
 	if (!block->next)
 		unset_block(region, block);
 }
 
-void		merge(t_region region, t_block block1, t_block block2)
+void		merge_blocks(t_region region, t_block block1, t_block block2)
 {
 	t_block next;
 

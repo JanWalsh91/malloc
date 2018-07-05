@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putbase.c                                          :+:      :+:    :+:   */
+/*   align16.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/16 11:09:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/05 13:25:27 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/07/05 13:39:47 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/05 13:40:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	putbase(size_t n, size_t base)
+size_t	align16(size_t n)
 {
-	if (n > base - 1)
-	{
-		putbase(n / base, base);
-		putbase(n % base, base);
-	}
-	else
-	{
-		if (n < 10)
-			ft_putchar(n + '0');
-		else
-			ft_putchar(n + 'A' - 10);
-	}
+	size_t	diff;
+
+	diff = n % 16;
+	if (diff == 0 && n != 0)
+		return (n);
+	return (n - diff + 16);
 }

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2018/06/21 12:29:28 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/05 14:23:16 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -204,7 +204,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_MEM) $(OBJ_IO) $(OBJ_STR) $(OBJ_USTR) $(OBJ_WSTR) $(OBJ_IS) $(OBJ_LST) $(OBJ_TO) $(OBJ_PRINTF) $(OBJ_MISC) 
 	@ar rcs $(NAME) $(OBJ_MEM) $(OBJ_IO) $(OBJ_STR) $(OBJ_USTR) $(OBJ_WSTR) $(OBJ_IS) $(OBJ_LST) $(OBJ_TO) $(OBJ_PRINTF) $(OBJ_MISC)
-	@echo "$(C_CYAN)Libft compilation done.$(C_NONE)"
+	@echo "$(C_CYAN)Libft compiled$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./ft_mem/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
@@ -248,14 +248,14 @@ $(OBJ_DIR)/%.o : ./ft_misc/%.c
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)
-	# @echo "$(C_CYAN)Libft clean done.$(C_NONE)"
+	@echo "$(C_CYAN)Libft clean$(C_NONE)"
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	# @echo "$(C_CYAN)Libft fclean done.$(C_NONE)"
+	@echo "$(C_CYAN)Libft fclean$(C_NONE)"
 
 re: fclean
 	@$(MAKE) all
 
 .PHONY: clean fclean
-	# @echo "$(C_CYAN)Libft .PHONY done.$(C_NONE)"
+	@echo "$(C_CYAN)Libft .PHONY$(C_NONE)"

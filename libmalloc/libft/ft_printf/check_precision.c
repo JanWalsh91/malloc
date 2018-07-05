@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_precision.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 13:20:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/15 19:11:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:57:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-/*
-** Adds or removes charaters based on the precision.
-*/
-
-static int	add_zeros(t_arg *arg, size_t size);
-static int	remove_chars(t_arg *arg, size_t size);
-static int	set_arg_to_null(t_arg *arg);
 
 /*
 ** Checks the precision given to the argument and adds or removes characters.
@@ -53,7 +45,7 @@ int			check_precision(t_arg *arg)
 ** Adds zeros and adds them to the front of the arg->result string.
 */
 
-static int	add_zeros(t_arg *arg, size_t size)
+int			add_zeros(t_arg *arg, size_t size)
 {
 	unsigned char	*zeros;
 
@@ -68,7 +60,7 @@ static int	add_zeros(t_arg *arg, size_t size)
 ** Removes characters.
 */
 
-static int	remove_chars(t_arg *arg, size_t size)
+int			remove_chars(t_arg *arg, size_t size)
 {
 	unsigned char	*newstr;
 
@@ -84,7 +76,7 @@ static int	remove_chars(t_arg *arg, size_t size)
 ** Sets the arg->result string to NULL.
 */
 
-static int	set_arg_to_null(t_arg *arg)
+int			set_arg_to_null(t_arg *arg)
 {
 	free(arg->result);
 	arg->result = NULL;

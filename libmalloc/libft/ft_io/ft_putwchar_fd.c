@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putwchar_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 17:23:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/21 15:41:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:54:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 */
 
 #include "libft.h"
-
-static int write_1_byte(wchar_t c, int fd);
-static int write_2_bytes(wchar_t c, int fd);
-static int write_3_bytes(wchar_t c, int fd);
-static int write_4_bytes(wchar_t c, int fd);
 
 int			ft_putwchar_fd(wchar_t c, int fd)
 {
@@ -35,13 +30,13 @@ int			ft_putwchar_fd(wchar_t c, int fd)
 	return (0);
 }
 
-static int	write_1_byte(wchar_t c, int fd)
+int			write_1_byte(wchar_t c, int fd)
 {
 	write(fd, &c, 1);
 	return (1);
 }
 
-static int	write_2_bytes(wchar_t c, int fd)
+int			write_2_bytes(wchar_t c, int fd)
 {
 	unsigned char s[2];
 
@@ -51,7 +46,7 @@ static int	write_2_bytes(wchar_t c, int fd)
 	return (1);
 }
 
-static int	write_3_bytes(wchar_t c, int fd)
+int			write_3_bytes(wchar_t c, int fd)
 {
 	unsigned char s[3];
 
@@ -65,7 +60,7 @@ static int	write_3_bytes(wchar_t c, int fd)
 	return (1);
 }
 
-static int	write_4_bytes(wchar_t c, int fd)
+int			write_4_bytes(wchar_t c, int fd)
 {
 	unsigned char s[4];
 

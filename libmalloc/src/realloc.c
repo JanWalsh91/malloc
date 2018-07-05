@@ -6,13 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:33 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:54:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:43:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-static void	*realloc_thread_unsafe2(t_block block, size_t size, void *ptr);
 
 void		*realloc(void *ptr, size_t size)
 {
@@ -36,7 +34,7 @@ void		*realloc_thread_unsafe(void *ptr, size_t size)
 	if (size <= 0 || !(region = get_region_containing_pointer(ptr)) ||
 		!(block = get_block_containing_pointer(region, ptr)))
 		return (NULL);
-	size = ALIGN4(size);
+	size = align16(size);
 	if (size <= block->size)
 	{
 		if (can_split_block(block, size))
@@ -52,10 +50,10 @@ void		*realloc_thread_unsafe(void *ptr, size_t size)
 		block->size = size;
 		return (get_block_content(block));
 	}
-	return (realloc_thread_unsafe2(block, size, ptr));
+	return (malloc_and_free(block, size, ptr));
 }
 
-static void	*realloc_thread_unsafe2(t_block block, size_t size, void *ptr)
+void		*malloc_and_free(t_block block, size_t size, void *ptr)
 {
 	void	*new_ptr;
 

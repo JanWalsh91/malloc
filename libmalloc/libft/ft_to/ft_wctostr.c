@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/06 15:09:26 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/04/12 15:12:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:02:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 */
 
 #include "libft.h"
-
-static unsigned char	*get_1_byte(wchar_t c);
-static unsigned char	*get_2_bytes(wchar_t c);
-static unsigned char	*get_3_bytes(wchar_t c);
-static unsigned char	*get_4_bytes(wchar_t c);
 
 unsigned char			*ft_wctostr(wchar_t c)
 {
@@ -35,7 +30,7 @@ unsigned char			*ft_wctostr(wchar_t c)
 	return (0);
 }
 
-static unsigned char	*get_1_byte(wchar_t c)
+unsigned char			*get_1_byte(wchar_t c)
 {
 	unsigned char	*s;
 
@@ -46,7 +41,7 @@ static unsigned char	*get_1_byte(wchar_t c)
 	return (s);
 }
 
-static unsigned char	*get_2_bytes(wchar_t c)
+unsigned char			*get_2_bytes(wchar_t c)
 {
 	unsigned char	*s;
 
@@ -58,7 +53,7 @@ static unsigned char	*get_2_bytes(wchar_t c)
 	return (s);
 }
 
-static unsigned char	*get_3_bytes(wchar_t c)
+unsigned char			*get_3_bytes(wchar_t c)
 {
 	unsigned char	*s;
 
@@ -77,7 +72,7 @@ static unsigned char	*get_3_bytes(wchar_t c)
 	return (s);
 }
 
-static unsigned char	*get_4_bytes(wchar_t c)
+unsigned char			*get_4_bytes(wchar_t c)
 {
 	unsigned char	*s;
 

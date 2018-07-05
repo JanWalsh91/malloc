@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 12:15:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/02/07 10:59:42 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:57:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 ** and the non-argument part of the format string to the output string.
 ** Returns the number of bytes written or -1 if an error occurs.
 */
-
-static int	revert_null_chars(t_data *d);
-static int	write_result(t_data *d, int i);
 
 int			ft_printf(const char *restrict format, ...)
 {
@@ -42,7 +39,7 @@ int			ft_printf(const char *restrict format, ...)
 ** and contantenation throughout ft_printf).
 */
 
-static int	revert_null_chars(t_data *d)
+int			revert_null_chars(t_data *d)
 {
 	int	i;
 
@@ -57,7 +54,7 @@ static int	revert_null_chars(t_data *d)
 ** byte_count if i is not null, or -1 if i is null (error).
 */
 
-static int	write_result(t_data *d, int i)
+int			write_result(t_data *d, int i)
 {
 	d->s ? d->byte_count = ft_ustrlen(d->s) : 0;
 	d->null_char ? revert_null_chars(d) : 0;

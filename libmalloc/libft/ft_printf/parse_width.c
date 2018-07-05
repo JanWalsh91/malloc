@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_width.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 13:13:32 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/15 18:03:11 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:01:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 ** If a field width is found, sets it in arg.
 ** Handles wildcards.
 */
-
-static int	parse_wildcard(t_data *d, t_arg *arg);
-static int	parse_num(t_data *d, t_arg *arg);
 
 int			parse_width(t_data *d, t_arg *arg)
 {
@@ -33,7 +30,7 @@ int			parse_width(t_data *d, t_arg *arg)
 	return (1);
 }
 
-static int	parse_wildcard(t_data *d, t_arg *arg)
+int			parse_wildcard(t_data *d, t_arg *arg)
 {
 	if ((arg->width = va_arg(d->ap, int)) < 0)
 	{
@@ -44,7 +41,7 @@ static int	parse_wildcard(t_data *d, t_arg *arg)
 	return (1);
 }
 
-static int	parse_num(t_data *d, t_arg *arg)
+int			parse_num(t_data *d, t_arg *arg)
 {
 	arg->width = ft_atoi(d->f);
 	while (*d->f && ft_isdigit(*d->f))

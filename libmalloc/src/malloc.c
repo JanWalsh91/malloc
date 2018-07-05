@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:54:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 16:47:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ void		*malloc(size_t size)
 	pthread_mutex_lock(&g_mutex);
 	init_lists();
 	ptr = malloc_thread_unsafe(size);
+	// if (ptr && (size_t)ptr % 16 != 0)
+	// {
+	// 	ft_putstr("not aligned\n");
+	// 	putbase((size_t)ptr, 16);
+	// 	ft_putchar('\n');
+	// 	exit(0);
+	// }
+	// else
+	// {
+	// 	ft_putstr("address aligned: ");
+	// 	putbase((size_t)ptr, 16);
+	// 	ft_putchar('\n');
+	// }
+	// static size_t i = 0;
+	// if (i > 10000)
+	// 	show_alloc_mem_thread_unsafe();
+	// i++;
 	pthread_mutex_unlock(&g_mutex);
 	return (ptr);
 }
@@ -37,7 +54,7 @@ void		*malloc_thread_unsafe(size_t size)
 		return (NULL);
 	block = NULL;
 	region = NULL;
-	size = ALIGN4(size);
+	size = align16(size);
 	region = get_region_head(size);
 	if (!region)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:45:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 16:58:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ void	print_region_list(t_region region, int i, size_t *total_size)
 
 	ft_putstr(g_lists.names[i]);
 	ft_putstr(" : 0x");
-	putbase((size_t)&region->content, 16);
 	putbase((size_t)(region), 16);
-	ft_putchar('\n');
+	
+	ft_putstr("\tSize: ");
+	ft_putnbr(region->size);
+	
+	ft_putstr("\n");
 	while (region)
 	{
 		block = (t_block)&region->content;

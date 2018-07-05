@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_unsigned_int.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 18:20:44 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/16 13:11:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:00:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 /*
 ** Gets the conversion for ouxXpb types.
 */
-
-static int	get_result(t_arg *arg, uintmax_t tmp);
 
 int			get_unsigned_int(t_data *d, t_arg *arg)
 {
@@ -40,7 +38,7 @@ int			get_unsigned_int(t_data *d, t_arg *arg)
 	return (1);
 }
 
-static int	get_result(t_arg *arg, uintmax_t tmp)
+int			get_result(t_arg *arg, uintmax_t tmp)
 {
 	int	base;
 

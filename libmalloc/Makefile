@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/04 17:45:14 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/05 15:54:34 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,13 @@ ifeq ($(HOSTTYPE),)
 endif
 
 NAME := libft_malloc_$(HOSTTYPE).so
+ALL_NAMES := libft_malloc*.so
 SYM_NAME := libft_malloc.so
 
 SRCS := malloc \
 		realloc \
 		free \
+		calloc \
 		region_manager \
 		region_manager2 \
 		region_manager3 \
@@ -29,7 +31,8 @@ SRCS := malloc \
 		show_alloc_mem \
 		putbase \
 		errors \
-		scribble
+		scribble \
+		align16
 
 EXT  :=.c
 SRCS := $(addsuffix $(EXT), $(SRCS))
@@ -47,14 +50,26 @@ LIBFT_PATH := libft/
 LIBFT_INC_PATH := libft/inc/
 
 CC := gcc
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g
+
+C_NONE = \033[0m
+C_BOLD = \033[1m
+C_BLACK = \033[30m
+C_RED = \033[31m
+C_GREEN = \033[32m
+C_BROWN = \033[33m
+C_BLUE = \033[34m
+C_MAGENTA = \033[35m
+C_CYAN = \033[36m
+C_GRAY = \033[37m
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) 
 	@$(CC) $(CFLAGS) -I$(LIBFT_INC_PATH) -L$(LIBFT_PATH) -lft -shared $^ -o $(NAME) -lpthread
-	@ln -s $(NAME) $(SYM_NAME)
-	@echo libft_malloc compiled and linked
+	@ln -fs $(NAME) $(SYM_NAME)
+	@echo "$(C_GREEN)Libft_malloc compiled$(C_NONE)"
+	@echo "$(C_MAGENTA)Libft_malloc linked$(C_NONE)"
 
 $(OBJS): | $(OBJS_DIR) $(LIBFT_PATH)$(LIBFT)
 
@@ -70,12 +85,15 @@ $(OBJS_DIR):
 
 clean:
 	@rm -rf $(OBJS_DIR)
-	@echo "libft_malloc clean"
+	@echo "$(C_GREEN)Libft_malloc clean$(C_NONE)"
+	@make clean -C $(LIBFT_PATH) 
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(SYM_NAME)
-	@echo "libft_malloc fclean"
+	@rm -f $(ALL_NAMES)
+	@make fclean -C $(LIBFT_PATH) 
+	@echo "$(C_GREEN)Libft_malloc fclean$(C_NONE)"
 
 re: fclean all
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_arg.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 12:27:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/16 13:13:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:00:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 ** Sets default values for the arg structure.
 ** Note: precision set to -1 translates to precision being ignored.
 */
-
-static void	set_default_flags(t_flags *flags);
 
 int			init_arg(t_arg *arg)
 {
@@ -32,7 +30,7 @@ int			init_arg(t_arg *arg)
 	return (1);
 }
 
-static void	set_default_flags(t_flags *flags)
+void		set_default_flags(t_flags *flags)
 {
 	flags->hashtag = 0;
 	flags->zero = 0;

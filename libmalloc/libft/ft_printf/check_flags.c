@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_flags.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:44:59 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/15 19:09:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:59:18 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static int	get_prefix(t_arg *arg, UC **prefix);
-static int	get_padding(t_arg *arg, UC **padding, size_t prefix_len);
-static int	add_commas(t_arg *arg);
 
 /*
 ** Checks for flags given to this argument, and applies the changes to
@@ -47,7 +43,7 @@ int			check_flags(t_arg *arg)
 ** Modifies the prefix string.
 */
 
-static int	get_prefix(t_arg *arg, UC **prefix)
+int			get_prefix(t_arg *arg, UC **prefix)
 {
 	*prefix = NULL;
 	if (arg->type && arg->flags.hashtag)
@@ -72,7 +68,7 @@ static int	get_prefix(t_arg *arg, UC **prefix)
 ** field width and flag 0.
 */
 
-static int	get_padding(t_arg *arg, UC **padding, size_t prefix_len)
+int			get_padding(t_arg *arg, UC **padding, size_t prefix_len)
 {
 	int	length;
 
@@ -92,7 +88,7 @@ static int	get_padding(t_arg *arg, UC **padding, size_t prefix_len)
 ** thousands.
 */
 
-static int	add_commas(t_arg *arg)
+int			add_commas(t_arg *arg)
 {
 	int	i;
 	int	y;

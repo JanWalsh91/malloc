@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putbase.c                                          :+:      :+:    :+:   */
+/*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/16 11:09:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/05 13:25:27 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/07/05 15:16:03 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/05 15:52:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	putbase(size_t n, size_t base)
+void	*calloc(size_t count, size_t size)
 {
-	if (n > base - 1)
-	{
-		putbase(n / base, base);
-		putbase(n % base, base);
-	}
-	else
-	{
-		if (n < 10)
-			ft_putchar(n + '0');
-		else
-			ft_putchar(n + 'A' - 10);
-	}
+	void	*ptr;
+
+	ptr = NULL;
+	pthread_mutex_lock(&g_mutex);
+	init_lists();
+	ptr = calloc_thread_unsafe(count, size);
+	pthread_mutex_unlock(&g_mutex);
+	return (ptr);
+}
+
+void	*calloc_thread_unsafe(size_t count, size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc_thread_unsafe(count * size);
+	ft_bzero(ptr, align16(count * size));
+	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 12:23:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/02/07 14:31:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:01:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,45 @@ typedef	struct	s_data
 }				t_data;
 
 int				ft_printf(const char *format, ...);
+int				revert_null_chars(t_data *d);
+int				write_result(t_data *d, int i);
 
 void			init_data(t_data *d, char *format);
+void			set_default_flags(t_flags *flags);
 int				parse_until_arg(t_data *d);
 int				parse_arg(t_data *d);
+int				merge(t_data *d, t_arg *arg);
 int				init_arg(t_arg *arg);
 
 int				parse_flags(t_data *d, t_arg *arg);
 int				parse_width(t_data *d, t_arg *arg);
+int				parse_wildcard(t_data *d, t_arg *arg);
+int				parse_num(t_data *d, t_arg *arg);
 int				parse_precision(t_data *d, t_arg *arg);
 int				parse_length(t_data *d, t_arg *arg);
 int				parse_type(t_data *d, t_arg *arg);
 
 int				check_type(t_data *d, t_arg *arg);
 int				check_precision(t_arg *arg);
+int				add_zeros(t_arg *arg, size_t size);
+int				remove_chars(t_arg *arg, size_t size);
+int				set_arg_to_null(t_arg *arg);
 int				check_flags(t_arg *arg);
+int				get_prefix(t_arg *arg, UC **prefix);
+int				get_padding(t_arg *arg, UC **padding, size_t prefix_len);
+int				add_commas(t_arg *arg);
 
 int				get_char(t_data *d, t_arg *arg);
 int				get_string(t_data *d, t_arg *arg);
 int				get_int(t_data *d, t_arg *arg);
+int				remove_sign(t_arg *arg);
 int				get_unsigned_int(t_data *d, t_arg *arg);
+int				get_result(t_arg *arg, uintmax_t tmp);
 int				get_address(t_data *d, t_arg *arg);
 int				get_percent(t_arg *arg);
 int				get_format(t_data *d, t_arg *arg);
+int				parse_user_input(t_data *d, char **input);
+int				get_code_values(char *c);
 int				set_byte_count(t_data *data, t_arg *arg);
 
 #endif

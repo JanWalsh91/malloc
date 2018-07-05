@@ -6,14 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 15:39:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/02/07 14:11:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:59:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static int	parse_user_input(t_data *d, char **input);
-static int	get_code_values(char *c);
 
 /*
 ** Gets the ANSI code for { types.
@@ -39,7 +36,7 @@ int			get_format(t_data *d, t_arg *arg)
 ** Parses the user input for the format type.
 */
 
-static int	parse_user_input(t_data *d, char **input)
+int			parse_user_input(t_data *d, char **input)
 {
 	int		i;
 
@@ -64,7 +61,7 @@ static int	parse_user_input(t_data *d, char **input)
 ** Reads user input and replaces string with ANSI codes.
 */
 
-static int	get_code_values(char *c)
+int			get_code_values(char *c)
 {
 	int		i;
 

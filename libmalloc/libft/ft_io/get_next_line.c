@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 15:57:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/20 16:45:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:55:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 ** If there is a newline in the static buffer, reads from it.
 ** Else, reads from the file.
 */
-
-static int	read_file(t_list *p, char **line);
-static int	read_buf(t_list *p, char **line);
 
 int			get_next_line(const int fd, char **line)
 {
@@ -55,7 +52,7 @@ int			get_next_line(const int fd, char **line)
 ** Else returns 0.
 */
 
-static int	read_file(t_list *p, char **line)
+int			read_file(t_list *p, char **line)
 {
 	char	buf[BUFF_SIZE + 1];
 	int		ret;
@@ -88,7 +85,7 @@ static int	read_file(t_list *p, char **line)
 ** If no \n is found, copy the whole buffer and read from the file.
 */
 
-static int	read_buf(t_list *p, char **line)
+int			read_buf(t_list *p, char **line)
 {
 	char	*end;
 	char	*tmp;

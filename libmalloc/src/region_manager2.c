@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:43:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 16:54:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_block		find_block_in_freed_space(t_region region, size_t size)
 
 t_block		get_block_from_new_region(t_region region, size_t size)
 {
+	ft_putstr("get_block_from_new_region\n");
 	t_region	new_region;
 
 	while (region->next)

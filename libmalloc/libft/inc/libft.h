@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 15:24:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/18 15:47:03 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:02:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char			*ft_strjoinfree(char const *s1, char const *s2, char c);
 int				ft_clamp(int i, int min, int max);
 double			ft_clampd(double i, double min, double max);
 int				get_next_line(const int fd, char **line);
+int				read_file(t_list *p, char **line);
+int				read_buf(t_list *p, char **line);
 int				*ft_range(int start, int end);
 char			*ft_straddchar(char const *s, char c);
 char			*ft_straddcharfree(char const *s, char c);
@@ -115,10 +117,18 @@ wchar_t			*ft_wstrappendfree(wchar_t *dst, wchar_t *src, size_t size);
 wchar_t			*ft_wstrsjoinfree(size_t n, ...);
 int				ft_putwchar(wchar_t c);
 int				ft_putwchar_fd(wchar_t c, int fd);
+int				write_1_byte(wchar_t c, int fd);
+int				write_2_bytes(wchar_t c, int fd);
+int				write_3_bytes(wchar_t c, int fd);
+int				write_4_bytes(wchar_t c, int fd);
 int				ft_putwstr_fd(wchar_t const *s, int fd);
 int				ft_putwstr(wchar_t const *s);
 unsigned char	*ft_ustrnew(size_t size);
 unsigned char	*ft_wctostr(wchar_t c);
+unsigned char	*get_1_byte(wchar_t c);
+unsigned char	*get_2_bytes(wchar_t c);
+unsigned char	*get_3_bytes(wchar_t c);
+unsigned char	*get_4_bytes(wchar_t c);
 unsigned char	*ft_ustrjoin(unsigned char const *s1, unsigned char const *s2);
 unsigned char	*ft_ustrjoinfree(unsigned char const *s1,
 		unsigned char const *s2, char c);

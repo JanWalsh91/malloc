@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:41:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/04 18:35:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "malloc.h"
 
 void *x_malloc(void *ptr)
 {

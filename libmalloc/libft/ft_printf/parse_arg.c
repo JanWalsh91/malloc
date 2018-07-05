@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 12:21:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/20 17:43:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 14:01:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 ** Parses the argument, and updates the final result with the tmp string and
 ** the conversion of the argyment.
 */
-
-static int	merge(t_data *d, t_arg *arg);
 
 int			parse_arg(t_data *d)
 {
@@ -39,7 +37,7 @@ int			parse_arg(t_data *d)
 	return (merge(d, &arg));
 }
 
-static int	merge(t_data *d, t_arg *arg)
+int			merge(t_data *d, t_arg *arg)
 {
 	d->s = ft_ustrsjoinfree(3, d->s, d->tmp, arg->result);
 	return (1);

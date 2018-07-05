@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 17:53:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 18:11:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 16:57:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,17 @@
 # include <unistd.h>
 # include <errno.h>
 # include <pthread.h>
-# include <fcntl.h>
-# include <time.h>
 # include <sys/time.h>
 # include "../libft/inc/libft.h"
 
 # define EXPORT __attribute__((visibility("default")))
-# define BLOCK_HEADER_SIZE (sizeof(struct s_block) - sizeof(int))
-# define REGION_HEADER_SIZE (sizeof(struct s_region) - sizeof(size_t))
-# define ALIGN4(x) (((((x)-1)>>2)<<2)+4)
-# define TINY_LIMIT ((size_t)getpagesize() / 4)
-# define SMALL_LIMIT (TINY_LIMIT * TINY_LIMIT)
-# define TINY_MIN_MAP_SIZE (TINY_LIMIT * 200)
-# define SMALL_MIN_MAP_SIZE (SMALL_LIMIT * 100)
+# define BLOCK_HEADER_SIZE (32)
+# define REGION_HEADER_SIZE (48)
+# define TINY_LIMIT (1024)
+# define SMALL_LIMIT (1048576)
+// # define TINY_MIN_MAP_SIZE (204800)
+# define TINY_MIN_MAP_SIZE (1024*2)
+# define SMALL_MIN_MAP_SIZE (104857600)
 
 typedef struct s_block	*t_block;
 
@@ -45,7 +43,7 @@ struct					s_block
 	size_t			size;
 	t_block			prev;
 	t_block			next;
-	int				free;
+	size_t			free;
 	int				content;
 };
 
@@ -63,6 +61,7 @@ struct					s_region
 	t_region		prev;
 	t_block			last_block;
 	t_block			after_last_block;
+	size_t			padding;
 	size_t			content;
 };
 
@@ -83,8 +82,9 @@ pthread_mutex_t			g_mutex;
 ** Wrappers for safe multithreading control (Bonus)
 */
 
-void					free(void *ptr) EXPORT;
 void					*malloc(size_t size) EXPORT;
+void					*calloc(size_t count, size_t size) EXPORT;
+void					free(void *ptr) EXPORT;
 void					*realloc(void *ptr, size_t size) EXPORT;
 void					show_alloc_mem(void) EXPORT;
 
@@ -93,6 +93,7 @@ void					show_alloc_mem(void) EXPORT;
 */
 
 void					*malloc_thread_unsafe(size_t size);
+void					*calloc_thread_unsafe(size_t count, size_t size);
 void					free_thread_unsafe(void *ptr);
 void					*realloc_thread_unsafe(void *ptr, size_t size);
 void					show_alloc_mem_thread_unsafe(void);
@@ -163,12 +164,25 @@ void					print_free_error(void *ptr);
 */
 
 void					defragment(t_region region, t_block block);
-void					merge(t_region region, t_block block1, t_block block2);
+void					merge_blocks(t_region region, t_block block1,
+							t_block block2);
 
 /*
 ** Scribble (Bonus)
 */
 
 void					scribble(t_block block, int value);
+
+/*
+** Realloc helper function
+*/
+
+void					*malloc_and_free(t_block block, size_t size, void *ptr);
+
+/*
+** Align bytes
+*/
+
+size_t					align16(size_t n);
 
 #endif

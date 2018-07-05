@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 16:27:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/16 13:11:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/05 13:58:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 /*
 ** Gets the signed integer for i and d conversions.
 */
-
-static int	remove_sign(t_arg *arg);
 
 int			get_int(t_data *d, t_arg *arg)
 {
@@ -44,7 +42,7 @@ int			get_int(t_data *d, t_arg *arg)
 ** Removes the minus sign (to be added later).
 */
 
-static int	remove_sign(t_arg *arg)
+int			remove_sign(t_arg *arg)
 {
 	unsigned char	*tmp;
 
