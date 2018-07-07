@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:42:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 15:29:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ size_t		get_region_min_map_size(size_t size)
 
 t_region	get_new_region(size_t size)
 {
+	// ft_putstr("get_new_region: ");
+
 	t_region	region;
 	size_t		final_size;
 
@@ -64,6 +66,8 @@ t_region	get_new_region(size_t size)
 		errno = ENOMEM;
 		return (NULL);
 	}
+	// putbase((size_t)region, 16);
+	// ft_putstr("\n");
 	region->size = final_size;
 	region->next = NULL;
 	region->last_block = NULL;

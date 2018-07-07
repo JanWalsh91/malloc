@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:43:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 16:50:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void		link_regions(t_region prev, t_region current)
 {
 	if (prev)
 		prev->next = current;
-	current->prev = prev;
+	if (current)
+		current->prev = prev;
 }
 
 int			region_is_free(t_region region)
@@ -33,7 +34,7 @@ int			region_is_free(t_region region)
 	return (1);
 }
 
-void		try_to_unmap_regions(t_region region)
+int			try_to_unmap_regions(t_region region)
 {
 	int	nb_free_regions;
 	int	nb_used_regions;
@@ -48,7 +49,7 @@ void		try_to_unmap_regions(t_region region)
 			if (nb_free_regions >= 2)
 			{
 				unmap_region(region);
-				return ;
+				return (1);
 			}
 		}
 		else
@@ -58,6 +59,7 @@ void		try_to_unmap_regions(t_region region)
 		else
 			break ;
 	}
+	return (0);
 }
 
 void		unmap_all_regions(t_region region)

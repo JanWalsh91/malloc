@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 17:53:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/05 16:57:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 16:53:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,14 @@
 # define TINY_LIMIT (1024)
 # define SMALL_LIMIT (1048576)
 // # define TINY_MIN_MAP_SIZE (204800)
-# define TINY_MIN_MAP_SIZE (1024*2)
+# define TINY_MIN_MAP_SIZE (1024)
 # define SMALL_MIN_MAP_SIZE (104857600)
+
+# define malloc ft_malloc
+# define free ft_free
+# define realloc ft_realloc
+# define show_alloc_mem ft_show_alloc_mem
+# define calloc ft_calloc
 
 typedef struct s_block	*t_block;
 
@@ -122,7 +128,7 @@ void					update_last_block_info(t_region region,
 							t_block block);
 void					link_regions(t_region prev, t_region current);
 int						region_is_free(t_region region);
-void					try_to_unmap_regions(t_region region);
+int						try_to_unmap_regions(t_region region);
 void					unmap_region(t_region region);
 void					unmap_all_regions(t_region region);
 void					unmap_regions_recursively(t_region region);

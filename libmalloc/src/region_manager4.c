@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 17:43:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 16:51:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,23 @@
 
 void		unmap_region(t_region region)
 {
+	// ft_putstr("unmap region: ");
+	// putbase((size_t)region, 16);
+	// ft_putstr("\n");
+	// show_alloc_mem_thread_unsafe();
 	t_region	prev;
 	t_region	next;
 
 	prev = region->prev;
 	next = region->next;
+	// ft_putstr("A\n");
 	munmap(region, region->size);
-	if (prev)
-		prev->next = next;
+	// ft_putstr("B\n");
+	link_regions(prev, next);
+	
+	// ft_putstr("unmap region END\n");
+	// show_alloc_mem_thread_unsafe();
+	// exit(0);
 }
 
 t_region	get_region_containing_pointer(void *ptr)

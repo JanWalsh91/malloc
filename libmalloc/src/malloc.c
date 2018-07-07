@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:00:36 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/05 16:47:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 16:51:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ pthread_mutex_t g_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
 void		*malloc(size_t size)
 {
+	// ft_putstr("malloc. size: ");
+	// ft_putnbr(size);
+	// ft_putstr("\n");
 	void	*ptr;
 
 	ptr = NULL;
@@ -46,10 +49,12 @@ void		*malloc(size_t size)
 
 void		*malloc_thread_unsafe(size_t size)
 {
+	// ft_putstr("malloc_thread_unsafe\n");
+	// show_alloc_mem_thread_unsafe();
 	t_block		block;
 	t_region	region;
 
-	if (size <= 0 ||
+	if (/*size <= 0 ||*/
 		size >= SIZE_MAX - (BLOCK_HEADER_SIZE + REGION_HEADER_SIZE))
 		return (NULL);
 	block = NULL;
@@ -65,7 +70,9 @@ void		*malloc_thread_unsafe(size_t size)
 		block = get_block_from_new_region(region, size);
 	if (!block)
 		return (NULL);
-	scribble(block, 0xA);
+	// scribble(block, 0xA);
+	// show_alloc_mem_thread_unsafe();
+	// ft_putstr("malloc_thread_unsafe END\n");
 	return (get_block_content(block));
 }
 

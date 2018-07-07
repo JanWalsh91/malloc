@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test5.c                                            :+:      :+:    :+:   */
+/*   test15.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/07 13:10:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 10:42:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "malloc.h"
+#include "libmalloc/inc/malloc.h"
 
-// int main() 
-// { 
-// 	ft_malloc(1024); 
-// 	ft_malloc(1024 * 32); 
-// 	ft_malloc(1024 * 1024); 
-// 	ft_malloc(1024 * 1024 * 16); 
-// 	ft_malloc(1024 * 1024 * 128); 
-// 	ft_show_alloc_mem(); 
-// 	return (0); 
-// }
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
 
-int main() 
-{ 
-	malloc(1024); 
-	malloc(1024 * 32); 
-	malloc(1024 * 1024); 
-	malloc(1024 * 1024 * 16); 
-	malloc(1024 * 1024 * 128); 
-	show_alloc_mem(); 
-	return (0); 
+int main()
+{
+	// allocated TINY to have at least 3 calls to mmap
+	// 1. free middle one 
+	// 2. free last one
+	// 3. free first one
+	int i = 0;
+	void *ptr[50];
+
+	while (i < 20)
+	{
+		ptr[i] = malloc(900);
+		++i;
+	}
+	show_alloc_mem();
+	free(ptr[1]);
+	free(ptr[2]);
+	free(ptr[3]);
+	free(ptr[4]);
+	show_alloc_mem();
+	return (0);
 }

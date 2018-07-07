@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:53:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/05 16:54:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/07 15:29:33 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,34 @@
 
 t_block		find_block_at_end_of_region(t_region region, size_t size)
 {
+	// ft_putstr("find_block_at_end_of_region\n");
 	t_block	block;
 
 	block = NULL;
 	while (region)
 	{
+		// ft_putstr("A\n");
 		if (region_has_space(region, size))
 		{
+			// show_alloc_mem_thread_unsafe();
+			// ft_putstr("B\n");
 			block = region->after_last_block;
+			// ft_putstr("block: ");
+			// putbase((size_t)block, 16);
+			// ft_putstr("\n");
+			// ft_putstr("region->last_block: ");
+			// putbase((size_t)region->last_block, 16);
+			// ft_putstr("\nregion->after_last_block: ");
+			// putbase((size_t)region->after_last_block, 16);
+			// ft_putstr("\n");
 			set_new_block(block, size);
+			// ft_putstr("C\n");
 			link_blocks(region->last_block, block);
+			// ft_putstr("D\n");
 			update_last_block_info(region, block);
+			// ft_putstr("E\n");
+			// show_alloc_mem_thread_unsafe();
+			// ft_putstr("find_block_at_end_of_region END\n");
 			return (block);
 		}
 		region = region->next;
@@ -34,6 +51,7 @@ t_block		find_block_at_end_of_region(t_region region, size_t size)
 
 t_block		find_block_in_freed_space(t_region region, size_t size)
 {
+	// ft_putstr("find_block_in_freed_space\n");
 	t_block		block;
 
 	block = NULL;
@@ -57,7 +75,7 @@ t_block		find_block_in_freed_space(t_region region, size_t size)
 
 t_block		get_block_from_new_region(t_region region, size_t size)
 {
-	ft_putstr("get_block_from_new_region\n");
+	// ft_putstr("get_block_from_new_region\n");
 	t_region	new_region;
 
 	while (region->next)
