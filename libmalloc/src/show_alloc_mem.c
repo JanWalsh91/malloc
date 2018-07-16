@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 10:33:46 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/07 14:28:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 17:02:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,37 +43,44 @@ void	show_alloc_mem_thread_unsafe(void)
 
 void	print_region_list(t_region region, int i, size_t *total_size)
 {
-	t_block block;
-
 	ft_putstr(g_lists.names[i]);
-	ft_putstr(" : 0x");
-	putbase((size_t)(region), 16);
-	
-	ft_putstr("\tSize: ");
-	ft_putnbr(region->size);
-	
+	ft_putstr(" :");
+	if (!SHOW_ALLOC_MEM_SHOW_REGION_INFO)
+	{
+		ft_putstr(" 0x");
+		putbase((size_t)(region), 16);
+	}
 	ft_putstr("\n");
 	while (region)
 	{
-		ft_putstr("region: ");
+		print_region(region, total_size);
+		region = region->next;
+	}
+}
+
+void	print_region(t_region region, size_t *total_size)
+{
+	t_block block;
+
+	if (SHOW_ALLOC_MEM_SHOW_REGION_INFO)
+	{
+		ft_putstr("region : 0x");
 		putbase((size_t)region, 16);
-		ft_putstr(" size: ");
+		ft_putstr("\tsize : ");
 		ft_putnbr(region->size);
 		ft_putstr("\n");
-		block = (t_block)&region->content;
-		while (block != NULL)
-		{
+	}
+	block = (t_block)&region->content;
+	while (block != NULL)
+	{
+		if (SHOW_ALLOC_MEM_SHOW_FREED_BLOCKS || !block->free)
 			print_block(block, total_size);
-			block = block->next;
-		}
-		region = region->next;
+		block = block->next;
 	}
 }
 
 void	print_block(t_block block, size_t *total_size)
 {
-	// if (block->size < 300)
-	// 	return ;
 	ft_putstr("\t0x");
 	putbase((size_t)&block->content, 16);
 	ft_putstr(" - ");

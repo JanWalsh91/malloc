@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/07 12:58:06 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/09 16:45:18 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRCS := malloc \
 		putbase \
 		errors \
 		scribble \
-		align16
+		align
 
 EXT  :=.c
 SRCS := $(addsuffix $(EXT), $(SRCS))
@@ -50,7 +50,7 @@ LIBFT_PATH := libft/
 LIBFT_INC_PATH := libft/inc/
 
 CC := gcc
-CFLAGS := -Wall -Werror -Wextra -g
+CFLAGS := -Wall -Werror -Wextra
 
 C_NONE = \033[0m
 C_BOLD = \033[1m
@@ -62,6 +62,25 @@ C_BLUE = \033[34m
 C_MAGENTA = \033[35m
 C_CYAN = \033[36m
 C_GRAY = \033[37m
+
+ifdef SHOW_ALLOC_MEM_SHOW_FREED_BLOCKS
+	CFLAGS += -D SHOW_ALLOC_MEM_SHOW_FREED_BLOCKS=1
+endif
+ifdef SHOW_ALLOC_MEM_SHOW_REGION_INFO
+	CFLAGS += -D SHOW_ALLOC_MEM_SHOW_REGION_INFO=1
+endif
+ifdef ALIGNMENT
+	CFLAGS += -D ALIGNMENT=$(ALIGNMENT)
+endif
+ifdef SCRIBBLE
+	CFLAGS += -D SCRIBBLE=1
+endif
+ifdef FT_REDEF
+	CFLAGS += -D FT_REDEF
+endif
+
+opti:
+	@make -j all
 
 all: $(NAME)
 
@@ -83,10 +102,18 @@ $(LIBFT_PATH)$(LIBFT):
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
+shallowre:
+	@rm -f $(NAME)
+	@rm -f $(SYM_NAME)
+	@rm -f $(ALL_NAMES)
+	@rm -rf $(OBJS_DIR)
+	@echo "$(C_GREEN)Libft_malloc shallowre$(C_NONE)"
+	@make opti
+
 clean:
 	@rm -rf $(OBJS_DIR)
+	@make clean -C $(LIBFT_PATH)
 	@echo "$(C_GREEN)Libft_malloc clean$(C_NONE)"
-	@make clean -C $(LIBFT_PATH) 
 
 fclean: clean
 	@rm -f $(NAME)

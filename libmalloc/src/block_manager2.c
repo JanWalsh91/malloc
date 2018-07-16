@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 15:59:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/07 15:28:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 15:40:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 void	link_blocks(t_block prev, t_block current)
 {
-	// ft_putstr("link_blocks ");
-	// putbase((size_t)prev, 16);
-	// ft_putstr(" with ");
-	// putbase((size_t)current, 16);
-	// ft_putstr("\n");
 	if (prev)
 		prev->next = current;
 	if (current)

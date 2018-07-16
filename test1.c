@@ -6,12 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 13:36:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 16:56:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 13:29:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-// #include "malloc.h"
 
 int main() 
 { 
@@ -19,8 +18,8 @@ int main()
 	char *addr; 
 	(void)addr;
 	i = 0; 
-	while (i < 1024)
-	{ 
+	while (i < 1)
+	{
 		addr = (char*)malloc(1024);
 		addr[0] = 42; 
 		

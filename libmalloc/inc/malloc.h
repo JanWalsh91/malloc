@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 17:53:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/07 16:53:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/16 10:50:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,39 @@
 # define MALLOC_H
 
 # include <sys/mman.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
 # include <errno.h>
 # include <pthread.h>
-# include <sys/time.h>
 # include "../libft/inc/libft.h"
 
-# define EXPORT __attribute__((visibility("default")))
 # define BLOCK_HEADER_SIZE (32)
 # define REGION_HEADER_SIZE (48)
-# define TINY_LIMIT (1024)
-# define SMALL_LIMIT (1048576)
-// # define TINY_MIN_MAP_SIZE (204800)
-# define TINY_MIN_MAP_SIZE (1024)
-# define SMALL_MIN_MAP_SIZE (104857600)
+# define KBYTE (1024)
+# define TINY_LIMIT (KBYTE)
+# define SMALL_LIMIT (KBYTE * KBYTE)
+# define TINY_MIN_MAP_SIZE (TINY_LIMIT * 200)
+# define SMALL_MIN_MAP_SIZE (SMALL_LIMIT * 100)
 
-# define malloc ft_malloc
-# define free ft_free
-# define realloc ft_realloc
-# define show_alloc_mem ft_show_alloc_mem
-# define calloc ft_calloc
+# ifndef ALIGNMENT
+#  define ALIGNMENT (16)
+# endif
+# ifndef SCRIBBLE
+#  define SCRIBBLE (0)
+# endif
+# ifndef SHOW_ALLOC_MEM_SHOW_FREED_BLOCKS
+#  define SHOW_ALLOC_MEM_SHOW_FREED_BLOCKS (0)
+# endif
+# ifndef SHOW_ALLOC_MEM_SHOW_REGION_INFO
+#  define SHOW_ALLOC_MEM_SHOW_REGION_INFO (0)
+# endif
+
+// TODO: remove for correction
+# ifdef FT_REDEF
+#  define malloc ft_malloc
+#  define free ft_free
+#  define realloc ft_realloc
+#  define show_alloc_mem ft_show_alloc_mem
+#  define calloc ft_calloc
+# endif
 
 typedef struct s_block	*t_block;
 
@@ -88,11 +99,16 @@ pthread_mutex_t			g_mutex;
 ** Wrappers for safe multithreading control (Bonus)
 */
 
-void					*malloc(size_t size) EXPORT;
-void					*calloc(size_t count, size_t size) EXPORT;
-void					free(void *ptr) EXPORT;
-void					*realloc(void *ptr, size_t size) EXPORT;
-void					show_alloc_mem(void) EXPORT;
+void					*malloc(
+	size_t size) __attribute__((visibility("default")));
+void					*calloc(
+	size_t count, size_t size) __attribute__((visibility("default")));
+void					free(
+	void *ptr) __attribute__((visibility("default")));
+void					*realloc(
+	void *ptr, size_t size) __attribute__((visibility("default")));
+void					show_alloc_mem(
+	void) __attribute__((visibility("default")));
 
 /*
 ** Wrapped functions for multithreading control (Bonus)
@@ -105,7 +121,7 @@ void					*realloc_thread_unsafe(void *ptr, size_t size);
 void					show_alloc_mem_thread_unsafe(void);
 
 /*
-** global
+** global variable initialization
 */
 
 void					init_lists(void);
@@ -155,6 +171,7 @@ t_block					get_block_containing_pointer(t_region region,
 
 void					print_region_list(t_region region, int i,
 							size_t *total_size);
+void					print_region(t_region region, size_t *total_size);
 void					print_block(t_block block, size_t *total_size);
 void					putbase(size_t n, size_t base);
 
@@ -186,9 +203,9 @@ void					scribble(t_block block, int value);
 void					*malloc_and_free(t_block block, size_t size, void *ptr);
 
 /*
-** Align bytes
+** Align bytes.
 */
 
-size_t					align16(size_t n);
+size_t					align(size_t n);
 
 #endif

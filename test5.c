@@ -6,22 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/07 13:10:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 12:39:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "malloc.h"
-
-// int main() 
-// { 
-// 	ft_malloc(1024); 
-// 	ft_malloc(1024 * 32); 
-// 	ft_malloc(1024 * 1024); 
-// 	ft_malloc(1024 * 1024 * 16); 
-// 	ft_malloc(1024 * 1024 * 128); 
-// 	ft_show_alloc_mem(); 
-// 	return (0); 
-// }
+#include <malloc.h>
 
 int main() 
 { 

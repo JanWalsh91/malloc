@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/05 15:16:03 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/07 16:06:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 16:20:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ void	*calloc(size_t count, size_t size)
 
 void	*calloc_thread_unsafe(size_t count, size_t size)
 {
-	// ft_putstr("calloc_thread_unsafe\n");
 	void	*ptr;
 
 	ptr = malloc_thread_unsafe(count * size);
-	ft_bzero(ptr, align16(count * size));
+	ft_bzero(ptr, align(count * size));
 	return (ptr);
 }

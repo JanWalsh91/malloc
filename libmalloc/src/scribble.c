@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:29:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/05 15:53:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 15:35:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	scribble(t_block block, int value)
 {
-	if (get_block_content(block))
+	if (SCRIBBLE && get_block_content(block))
 		ft_memset(get_block_content(block), value, block->size);
 }

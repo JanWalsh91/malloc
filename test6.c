@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 15:00:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/04 18:35:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 12:42:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+
+#include <malloc.h>
 
 void *x_malloc(void *ptr)
 {
@@ -29,7 +31,7 @@ void *x_malloc(void *ptr)
 int main()
 {
 	pthread_t inc_x_thread[50];
-	int y = 5;
+	int y = 50;
 	
 	for (int i = 0; i < y; ++i) {
 		if (pthread_create(&inc_x_thread[i], NULL, x_malloc, NULL))

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 17:04:33 by vcombey           #+#    #+#             */
-/*   Updated: 2018/07/07 16:53:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/09 16:50:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void    *ft_malloc(size_t size);
 void    ft_free(void *ptr);
 void    ft_show_alloc_mem(void);
 void    *ft_realloc(void *ptr, size_t size);
-#define TEST_LENGTH 10000
+#define TEST_LENGTH 1000
 #define MAX_ALLOC 500
-#define NB_TESTS 10000
+#define NB_TESTS 1000
 
 struct test {
 	void *ptr;
@@ -208,7 +208,7 @@ void        sodo_ft_realloc(void)
 int         main(void)
 {
 	// printf("main\n");
-	// sodo_test();
+	sodo_test();
 	sodo_ft_realloc();
 	return 0;
 }
