@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/12 15:16:17 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/09 16:45:18 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/16 11:28:11 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,11 +83,14 @@ opti:
 	@make -j all
 
 all: $(NAME)
+	@make link
 
 $(NAME): $(OBJS) 
 	@$(CC) $(CFLAGS) -I$(LIBFT_INC_PATH) -L$(LIBFT_PATH) -lft -shared $^ -o $(NAME) -lpthread
-	@ln -fs $(NAME) $(SYM_NAME)
 	@echo "$(C_GREEN)Libft_malloc compiled$(C_NONE)"
+	
+link:
+	@ln -fs $(NAME) $(SYM_NAME)
 	@echo "$(C_MAGENTA)Libft_malloc linked$(C_NONE)"
 
 $(OBJS): | $(OBJS_DIR) $(LIBFT_PATH)$(LIBFT)
