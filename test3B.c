@@ -6,15 +6,15 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 13:36:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/06/28 15:50:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/17 16:37:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define M (1024 * 1024) 
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <unistd.h>
 
 void print(char *s) 
 { 

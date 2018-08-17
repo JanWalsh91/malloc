@@ -1,6 +1,0 @@
-libft_malloc.so
-libft_malloc*.so
-*.o
-settings.json
-*.a
-.vscode/**/*
