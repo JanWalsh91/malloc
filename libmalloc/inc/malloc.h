@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 17:53:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/16 10:50:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/09/17 15:54:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@
 # endif
 
 // TODO: remove for correction
-# ifdef FT_REDEF
-#  define malloc ft_malloc
-#  define free ft_free
-#  define realloc ft_realloc
-#  define show_alloc_mem ft_show_alloc_mem
-#  define calloc ft_calloc
-# endif
+// # ifdef FT_REDEF
+// #  define malloc ft_malloc
+// #  define free ft_free
+// #  define realloc ft_realloc
+// #  define show_alloc_mem ft_show_alloc_mem
+// #  define calloc ft_calloc
+// # endif
 
 typedef struct s_block	*t_block;
 
